@@ -1,0 +1,78 @@
+h1 {
+    color: #000;
+    background: cyan;
+}
+
+.titulo {
+    margin-top: 5%;
+    font-size: 28px;
+    font-weight: 700;
+    color: #000;
+}
+
+.subtitulo {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+}
+
+.fondo-card {
+    background-color: #495da1;
+    border: 1px solid #0000;
+    border-radius: 30px;
+    color: white;
+}
+
+.tamIconoIngresos {
+    width: 64px;
+    height: 64px;
+}
+
+/* my styles kbo */
+
+.card-dash{
+    -webkit-box-shadow: 2px 1px 18px 7px rgba(150,150,150,0.16); 
+    box-shadow: 2px 1px 18px 7px rgba(150,150,150,0.16);
+    margin: 10px 10px 10px 10px;
+}
+.card-body-dash{
+    padding: 15px 15px 15px 15px;
+}
+.card-body-dash:hover{
+    box-shadow: 2px 1px 18px 7px #ff9ff3;
+    -webkit-transition: box-shadow 1000ms linear;
+    -ms-transition: box-shadow 1000ms linear;
+    transition: box-shadow 500ms linear;
+    cursor: pointer;
+}
+.card-dash-img{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.card-dash-img i{
+    display: flex;
+    justify-content: center;
+}
+.card-dash-num{
+    font-weight: 700;
+    font-size: 24px;
+}
+.card-dash-sub{
+    color: burlywood;
+    font-size: 16px;
+}
+.card-dash-desc{
+    padding-left: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 15px;
+}
+.card-dash-desc p {
+    text-align: right;
+}
+.row-paciente:hover{
+    background-color: thistle;
+    font-weight: 600;
+    color: white;
+}

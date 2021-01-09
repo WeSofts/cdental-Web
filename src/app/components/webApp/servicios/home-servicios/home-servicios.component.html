@@ -1,0 +1,89 @@
+
+<div class="col-12 mt-3">
+    <h4>Servicios y Subservicios Registrados</h4>
+</div>
+
+<mat-card>
+    <mat-accordion style="margin-top: 15px;" *ngFor="let servicio of servicios; let i = index;">
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title style="font-weight: 600; font-size: 18px;">
+                    {{ servicio.servicio }}
+                </mat-panel-title>
+                <mat-panel-description> Servicio </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="table-reponsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">SubServicio</th>
+                            <th scope="col">Costo</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="cursor: pointer;" *ngFor="let subservicio of servicio.subservicios; let j = index;" data-toggle="modal" data-target="#staticBackdrop" (click)="setServicioSelected(subservicio, servicio.servicio, servicio.id_servicio, j, i )">
+                            <td> {{ subservicio.subservicio }} </td>
+                            <td>$ {{ subservicio.costo }} </td>
+                            <td style="font-style: italic;">toque para editar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-card>
+
+<!-- Modal -->
+<div class="modal fade" name="modalup" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" *ngIf="servicioselected!=null">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="staticBackdropLabel"><strong>Editar </strong> Servicio {{ servicioselected.servicio }} </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form class="" [formGroup]="formservicio" name="formservicio">
+                <div class="row" style="justify-content: space-between;">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nombre del SubServicio</mat-label>
+                            <input matInput placeholder="Nombre del subservicio" required formControlName="nombre" [(ngModel)]="servicioselected.subservicio">
+                            <mat-icon matSuffix>
+                                <i class="fas fa-id-card text-primary   "></i>
+                            </mat-icon>
+                            <mat-error *ngIf="subservicioNoValido">Subservicio<strong> inválido.</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Costo del servicio</mat-label>
+                            <input matInput placeholder="Costo del subservicio" type="number" required formControlName="costo" [(ngModel)]="servicioselected.costo">
+                            <mat-icon matSuffix>
+                                <i class="fas fa-money-bill text-primary   "></i>
+                            </mat-icon>
+                            <mat-error *ngIf="costoNoValido">Costo<strong> inválido.</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Servicio al que pertenece</mat-label>
+                            <mat-select required formControlName="servicio" [(ngModel)]="servicioselected.id_servicio" >
+                              <mat-option *ngFor="let item of servicios; let i = index;" [value]="item.id_servicio"> {{ item.servicio }} </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="servicioNoValido">Servicio<strong> inválido.</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="deletingSubServicio()" data-dismiss="modal">Eliminar</button>
+          <button type="button" class="btn btn-primary" (click)="updatingSubServicio()" >Actualizar</button>
+        </div>
+      </div>
+    </div>
+</div>
+

@@ -1,0 +1,30 @@
+.active{
+    font-weight: 600;
+}
+ul li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: whitesmoke;
+    transition: width .5s ease;
+    z-index: -1;
+}
+
+ul li:hover:before {
+    width: 100%;
+}
+
+ul li {
+    display: inline-block;
+    position: relative;
+    color: white;
+    transition: all .5s;
+}
+
+ul li:hover {
+    transform: scale(1.13);
+    color: white;
+}

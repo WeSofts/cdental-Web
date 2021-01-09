@@ -1,0 +1,67 @@
+<mat-card style="margin: 20px 10px 10px 10px;">
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Registrar Servicio
+              </button>
+            </h2>
+          </div>  
+          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+              <form  [formGroup]="formservicio">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Servicio</mat-label>
+                  <input matInput placeholder="Nombre del servicio" name="nombresrv" formControlName="nombresrv" [(ngModel)]="newServicio.servicio">
+                  <mat-icon matSuffix>
+                    <i class="fas fa-id-card text-primary   "></i>
+                </mat-icon>
+                  <mat-error *ngIf="servicioNoValido">Servicio<strong> inválido.</strong></mat-error>
+                </mat-form-field>
+                <button mat-flat-button color="primary" class="btn-block mt-2" (click)="addServicio()">Aceptar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h2 class="mb-0">
+              <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Registrar SubServicio
+              </button>
+            </h2>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div class="card-body">
+              <form  [formGroup]="formsubservicio">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Servicio al que pertenece</mat-label>
+                  <mat-select required formControlName="servicio" aria-placeholder="Seleccione una opción" required [(ngModel)]="newSubServicio.id_servicio">
+                    <mat-option *ngFor="let item of servicios; let i = index;" [value]="item.id_servicio"> {{ item.servicio }} </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="sservicioNoValido">Servicio<strong> inválido.</strong></mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>SubServicio</mat-label>
+                  <input matInput placeholder="Nombre del subservicio" name="nombresubsrv" formControlName="nombresubsrv" required [(ngModel)]="newSubServicio.sub_servicio">
+                  <mat-icon matSuffix>
+                    <i class="fas fa-id-card text-primary   "></i>
+                  </mat-icon>
+                  <mat-error *ngIf="subservicioNoValido">SubServicio<strong> inválido.</strong></mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Costo</mat-label>
+                  <input matInput placeholder="Costo del Subservicio" name="costo" formControlName="costo" type="number" required [(ngModel)]="newSubServicio.precio">
+                  <mat-icon matSuffix>
+                    <i class="fas fa-money-bill text-primary   "></i>
+                  </mat-icon>
+                  <mat-error *ngIf="costoNoValido">Costo<strong> inválido.</strong></mat-error>
+                </mat-form-field>
+                <button mat-flat-button color="primary" class="btn-block mt-2" type="submit" (click)="addSubServicio()">Aceptar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</mat-card>

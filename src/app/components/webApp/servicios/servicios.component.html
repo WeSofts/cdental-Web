@@ -1,0 +1,24 @@
+<div class="container">
+    
+<div class="header-services">
+    <h2 style="margin-bottom: 0;">Servicios de tu clínica</h2>
+    <p style="margin-top: 0;">Mira, actualiza y registra nuevos servicios</p>
+</div>
+
+<nav mat-tab-nav-bar mat-stretch-tabs mat-align-tabs="center">
+    <a mat-tab-link 
+    *ngFor="let link of navLinks"
+    [routerLink]="link.link"
+    routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive" >
+        <mat-icon class="example-tab-icon" *ngIf="link.index == 0">
+            <i class="fas fa-teeth-open text-primary"></i>
+        </mat-icon>
+        <mat-icon class="example-tab-icon" *ngIf="link.index == 1">
+            <i class="fas fa-plus text-primary"></i>
+        </mat-icon>
+        {{ link.label }}
+    </a>
+</nav>
+<router-outlet></router-outlet>
+</div>

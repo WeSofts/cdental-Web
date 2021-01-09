@@ -1,0 +1,85 @@
+.t1 {
+    font-family: 'poppins', monospace, sans-serif;
+    font-size: 3vh;
+    color: white;
+}
+
+.t2 {
+    font-family: 'poppins', monospace, sans-serif;
+    font-size: 5vh;
+    font-weight: bold;
+    color: white;
+    line-height: 45px;
+}
+
+.t3 {
+    color: white;
+    font-size: 18px;
+}
+
+input {
+    padding: 10px 15px;
+    /* border: 2px solid #eaeaea; */
+    border-radius: 0.7em;
+    box-shadow: 0 0 15px rgba(97, 84, 84, 0.009);
+    color: blue;
+    background-color: #DEEDFD;
+    padding: 1em;
+    font-weight: 600;
+}
+
+input:focus+label,
+input:valid+label {
+    color: blue;
+    font-size: 14px;
+    top: 0.1%;
+    left: 17%;
+}
+
+.ilustracion-modal {
+    width: 220px;
+    height: 200px;
+}
+
+#h-IniciarSesion {
+    font-weight: bold;
+}
+
+#div-IniciarSesion {
+    width: 100%;
+    margin-bottom: 10%;
+}
+
+#Login-logo {
+    width: 60px;
+    height: 50px;
+    opacity: 0.5;
+}
+
+.recuperacion-click {
+    font-weight: bold;
+}
+
+#div-BotonIngresar {
+    width: 100%;
+    margin-top: 10%;
+}
+
+.divCabecera {
+    height: 100vh;
+}
+
+.divColor {
+    background: #54a0ff;
+}
+
+.PosicionCorreoContraseña {
+    height: 80%;
+}
+
+.EntradaDeTexto {
+    width: 100%;
+}
+.sub-serv{
+    color: white;
+}

@@ -30,7 +30,17 @@ const routes: Routes = [
   {
     path: 'cdental', component: SidebarComponent, canActivate: [ AuthGuard ], children: [
       {
-        path: 'home', component: HomeComponent
+        path: 'home', component: HomeComponent, children: [
+          {
+            path: 'carnets', component: CarnetsComponent
+          },
+          {
+            path: 'pacientes', component: NavbarComponent
+          },
+          {
+            path: 'reportes', component: ReportesComponent
+          },
+        ]
       },
       {
         path: 'carnets', component: CarnetsComponent

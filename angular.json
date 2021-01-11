@@ -121,6 +121,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "cdental-Web"
+    }
+  },
+  "defaultProject": "cdental-Web",
+  "cli": {
+    "analytics": "b51c8ab5-4f4f-45e0-a853-7a466144e705"
+  }
 }

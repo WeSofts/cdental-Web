@@ -1,0 +1,11 @@
+<div class="col" style="text-align: center;" *ngIf="emptysearching">
+    <div class="col" >
+        <img src="../../../../../assets/illustrations/notfoud_item.svg" class="d-block w-100" width="200px" height="160px">
+    </div>
+    <h2 style="margin-bottom: 0;" >El paciente que buscas no ha sido encontrado.</h2>
+    <h4 style="margin-top: 0;">Revisa nuevamente</h4>
+</div>
+
+<div class="container75 row">
+    <app-carnet [carnet]="item" [index]="item.idx" class="col-md-4 col-sm-12" style="cursor: pointer;" *ngFor="let item of carnetsfilter; let i = index" ></app-carnet>
+</div>

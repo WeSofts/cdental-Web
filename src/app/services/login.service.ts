@@ -18,18 +18,20 @@ export class LoginService {
   ) {}
 
   SignIn(body: any): Observable<any>{
-    return this.http.post(this.appConfig.APP_ENDPOINT + 'user/signin', body)
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/signin', body)
     .pipe(
       map( (resp: any) => {
         console.log('Entro a login de admin');
-        this.guardarData(JSON.stringify(resp));
+        if(resp.message != 'No result') {
+          this.guardarData(JSON.stringify(resp.message));
+        }
         return resp;
       })
     );
   }
 
   ForgotPassword(email: string): Observable<any>{
-    return this.http.post(this.appConfig.APP_ENDPOINT + 'user/recovery', email);
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/login', email);
   }
 
   LogOut(){

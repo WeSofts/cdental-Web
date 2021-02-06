@@ -16,6 +16,9 @@ import { ServiciosComponent } from './components/webApp/servicios/servicios.comp
 import { AuthGuard } from './shared/guards/auth.guard';
 import { HomeServiciosComponent } from './components/webApp/servicios/home-servicios/home-servicios.component';
 import { RegistrarServiciosComponent } from './components/webApp/servicios/registrar-servicios/registrar-servicios.component';
+import { SearcherComponent } from './components/webApp/carnets/searcher/searcher.component';
+import { AllCarnetsComponent } from './components/webApp/carnets/all-carnets/all-carnets.component';
+import { ViewCarnetComponent } from './components/webApp/carnets/view-carnet/view-carnet.component';
 
 const routes: Routes = [
   {
@@ -43,7 +46,17 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'carnets', component: CarnetsComponent
+        path: 'carnets', component: CarnetsComponent, children: [
+          {
+            path: 'buscar/:valor', component: SearcherComponent
+          },
+          {
+            path: 'allcarnets', component: AllCarnetsComponent
+          },
+        ]
+      },
+      {
+        path: 'vercarnet/:id', component: ViewCarnetComponent
       },
       {
         path: 'pacientes', component: NavbarComponent, children: [

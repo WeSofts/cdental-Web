@@ -25,6 +25,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { RegistrarServiciosComponent } from './components/webApp/servicios/registrar-servicios/registrar-servicios.component';
+import { SearcherComponent } from './components/webApp/carnets/searcher/searcher.component';
+import { AllCarnetsComponent } from './components/webApp/carnets/all-carnets/all-carnets.component';
+import { CarnetComponent } from './components/webApp/carnets/carnet/carnet.component';
+import { ViewCarnetComponent } from './components/webApp/carnets/view-carnet/view-carnet.component';
+import { DialogCarnetComponent } from './components/webApp/carnets/view-carnet/dialog-carnet/dialog-carnet.component';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +49,12 @@ import { RegistrarServiciosComponent } from './components/webApp/servicios/regis
     ReportesComponent,
     ServiciosComponent,
     HomeServiciosComponent,
-    RegistrarServiciosComponent
+    RegistrarServiciosComponent,
+    SearcherComponent,
+    AllCarnetsComponent,
+    CarnetComponent,
+    ViewCarnetComponent,
+    DialogCarnetComponent
   ],
   imports: [
     BrowserModule,

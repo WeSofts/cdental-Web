@@ -1,0 +1,117 @@
+<div class="mr-sm-0 mr-md-2 mr-lg-5 ml-sm-0 ml-md-2 ml-lg-5 mt-5 mb-3" >
+    <!-- Header -->
+    <div class="row" style="justify-content: space-between;">
+        <div class="details col-md-12 col-lg-6 col-sm-12" >
+            <p>Carnet de</p>
+            <p style="font-weight: 700; font-size: 20px;" > {{ carnet.nombre }} </p>
+            <p style="font-weight: 500; font-size: 17px;" > {{ carnet.servicio }} </p>
+        </div>
+        <div class=" col-md-4 col-lg-2 col-sm-4" style="text-align: center;" >
+            <p style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" >$400.00 MXN</p>
+            <p style="color: gray; margin-top: 0; font-size: 15px;">Total acumulado</p>
+        </div>
+        <div class=" col-md-4 col-lg-2 col-sm-4" style="text-align: center;" >
+            <p style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" >$400.00 MXN</p>
+            <p style="color: gray; margin-top: 0; font-size: 15px;">Total por pagar</p>
+        </div>
+        <div class=" col-md-4 col-lg-2 col-sm-4" style="text-align: center;" >
+            <p style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" >$400.00 MXN</p>
+            <p style="color: gray; margin-top: 0; font-size: 15px;">Pagos Realizados</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="mr-sm-0 mr-md-2 mr-lg-5 ml-sm-0 ml-md-2 ml-lg-5" >
+    <div class="row" style="justify-content: space-between;">
+        <div class="col-md-12 col-lg-6 col-sm-12 mt-sm-3 mt-md-3 mt-lg-3" style="">
+            <div class="row" style="justify-content: space-between; padding: 0 25px 25px 25px;">
+                <p>Pagos realizados</p>
+                <div class="row">
+                    <button mat-button>
+                        <mat-icon>print</mat-icon>
+                        Imprimir
+                    </button>
+                    <button mat-flat-button color="primary" (click)="openDialogEdit( null )">
+                        <mat-icon>add</mat-icon> Agregar pago
+                    </button>
+                </div>
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="margin: 20px 0 0 0; width: 100%; padding: 0 25px 25px 25px;">
+                    <ng-container matColumnDef="Fecha">
+                      <th mat-header-cell *matHeaderCellDef> Fecha. </th>
+                      <td mat-cell *matCellDef="let element"> {{element.Fecha}} </td>
+                    </ng-container>
+                  
+                    
+                    <ng-container matColumnDef="Cantidad">
+                      <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                      <td mat-cell *matCellDef="let element"> {{element.Cantidad}} </td>
+                    </ng-container>
+                  
+                    
+                    <ng-container matColumnDef="Recibio">
+                      <th mat-header-cell *matHeaderCellDef> Recibio </th>
+                      <td mat-cell *matCellDef="let element"> {{element.Recibio}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Opciones">
+                        <th mat-header-cell *matHeaderCellDef> Opciones </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <button mat-icon-button color="primary" (click)="openDialogEdit(element)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="primary" >
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                      </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-5 col-sm-12 mt-sm-3 mt-md-3 mt-lg-3" style="">
+            <div class="row" style="justify-content: space-between; padding: 0 25px 25px 25px;">
+                <p style="">Citas agendadas</p>
+                <div class="row">
+                    <button mat-button>
+                        <mat-icon>print</mat-icon>
+                        Imprimir
+                    </button>
+                    <button mat-flat-button color="primary"  >
+                        <mat-icon>add</mat-icon> Agregar cita
+                    </button>
+                </div>
+                <table mat-table [dataSource]="dataSourceCitas" class="mat-elevation-z8" style="margin: 20px 0 0 0; width: 100%; padding: 0 25px 25px 25px;">
+                    <ng-container matColumnDef="Fecha">
+                      <th mat-header-cell *matHeaderCellDef> Fecha. </th>
+                      <td mat-cell *matCellDef="let element"> {{element.Fecha}} </td>
+                    </ng-container>
+                  
+                    
+                    <ng-container matColumnDef="Hora">
+                      <th mat-header-cell *matHeaderCellDef> Hora </th>
+                      <td mat-cell *matCellDef="let element"> {{element.Hora}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Opciones">
+                        <th mat-header-cell *matHeaderCellDef> Opciones </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <button mat-icon-button color="primary"  >
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="primary" >
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                      </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="DCCitas"></tr>
+                    <tr mat-row *matRowDef="let row; columns: DCCitas;"></tr>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</div>

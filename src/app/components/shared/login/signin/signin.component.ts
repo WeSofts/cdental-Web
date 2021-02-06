@@ -20,7 +20,7 @@ export class SigninComponent implements OnInit {
    ) {
     this.formlogin = fb.group({
       correo: ['', [Validators.email, Validators.required]],
-      contrasena: ['', [Validators.required]]
+      contrasenia: ['', [Validators.required]]
     });
 
     this.formRecovery = fb.group({
@@ -37,14 +37,13 @@ export class SigninComponent implements OnInit {
     Swal.showLoading();
     this.loginService.SignIn(this.formlogin.value).subscribe(
       data => {
-        console.log(data);
-        if( data.auth === true ){
+        if( data.error === false ){
           Swal.close();
           this.router.navigateByUrl('/cdental/home');
         } else{
           Swal.fire({
             title: 'Error',
-            text: data.error,
+            text: 'Información incorrecta',
             icon: 'error'
           });
         }

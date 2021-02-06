@@ -10,38 +10,48 @@
   
   <div class="row mt-5">
         <div class="col-sm-12 col-lg-4 col-md-12 mt-2 card-body-dash" >
-          <div class="card-dash row" >
+          <a routerLink="/cdental/carnets/allcarnets">
+          <div class="card-dash row ">
+            
             <div class="col-4 card-dash-img" style="background-color: #ff6b6b;">
               <i class="fas fa-users fa-2x" style="color: white;"></i>
             </div>
             <div class="col-8 card-dash-desc">
-              <p class="card-dash-num" >250</p>
-              <p class="card-dash-sub" >Clientes en Enero</p>
+              <p class="card-dash-num" > {{ StadisticsObject[0].clientes_asistencias_ingresos }} </p>
+              <p class="card-dash-sub" > Clientes en {{ getNameMonth }} </p>
             </div>
-          </div>  
+          </div>
+        </a>  
         </div>
+
         <div class="col-sm-12 col-lg-4 col-md-12 mt-2 card-body-dash" >
+          <a routerLink="/cdental/pacientes">
           <div class="card-dash row" >
             <div class="col-4 card-dash-img" style="background-color: cornflowerblue;">
               <i class="fas fa-user-check fa-2x" style="color: white;"></i>
             </div>
             <div class="col-8 card-dash-desc">
-              <p class="card-dash-num" > 25 </p>
+              <p class="card-dash-num" > {{ StadisticsObject[1].clientes_asistencias_ingresos }} </p>
               <p class="card-dash-sub" >Asistencias de hoy</p>
             </div>
-          </div>  
+          </div> 
+        </a> 
         </div>
+
         <div class="col-sm-12 col-lg-4 col-md-12 mt-2 card-body-dash" >
+          <a routerLink="/cdental/reportes">
           <div class="card-dash row" >
             <div class="col-4 card-dash-img" style="background-color: #feca57;">
               <i class="fas fa-dollar-sign fa-2x" style="color: white;"></i>
             </div>
             <div class="col-8 card-dash-desc">
-              <p class="card-dash-num" >$4,500.00</p>
-              <p class="card-dash-sub" >Ingresos de Enero</p>
+              <p class="card-dash-num" > {{ StadisticsObject[2].clientes_asistencias_ingresos | currency }} </p>
+              <p class="card-dash-sub" >Ingresos de  {{ getNameMonth }} </p>
             </div>
           </div>  
+        </a>
         </div>
+
   </div>
 
   <mat-card class="mt-5">

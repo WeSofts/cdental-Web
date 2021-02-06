@@ -1,1 +1,18 @@
-<p>carnets works!</p>
+<div class="container">
+    
+    <div class="header-carnets">
+        <h2 style="margin-bottom: 0;">Carnets de pacientes</h2>
+        <p style="margin-top: 0;"> Busca y actualiza los datos de tus pacientes. </p>
+    </div>
+    
+    <div class="wrap-input100 m-b-16" >
+        <input class="input100" type="text" placeholder="Nombre del paciente" #valor (keyup.enter)="buscarcarnet(valor.value)">
+        <span class="focus-input100"></span>
+    </div>
+
+</div>
+
+<div class="container75">
+    <router-outlet></router-outlet>
+</div>
+

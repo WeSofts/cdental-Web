@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ServiciosService } from '../../../../services/app/servicios/servicios.service';
+import { forkJoin } from 'rxjs';
+import { UserData } from '../../../../models/localSession.model';
+import { ServicioList, SubServicioList } from '../../../../models/services.model';
 
 @Component({
   selector: 'app-home-servicios',
@@ -9,86 +12,53 @@ import { ServiciosService } from '../../../../services/app/servicios/servicios.s
   styleUrls: ['./home-servicios.component.css']
 })
 export class HomeServiciosComponent implements OnInit {
-  
-  servicios: any[] = [
-    {
-      id_servicio: 1,
-      servicio: 'Periodoncia',
-      subservicios: [
-        {
-          id_sub: 45,
-          subservicio: 'Empaste',
-          costo: 4500
-        },
-        {
-          id_sub: 46,
-          subservicio: 'Amalgama',
-          costo: 4500
-        },
-      ]
-    },
-    {
-      id_servicio: 2,
-      servicio: 'Endodoncia',
-      subservicios: [
-        {
-          id_sub: 55,
-          subservicio: 'Empaste con x',
-          costo: 4500
-        },
-        {
-          id_sub: 66,
-          subservicio: 'Amalgama con y',
-          costo: 4500
-        },
-      ]
-    }
-  ];
-   servicioselected: SubServicio = {
-    subservicio: 'string',
-    costo: 0,
-    servicio: '',
-    id_servicio: 4,
-    id_sub: 0,
-   };
+  servicios: ServicioList[] = [];
+  subServicioSelect: SubServicioList;
+  servicioSelect: ServicioList;
   formservicio: FormGroup;
   indexservice: number;
   indexsubservice: number;
-
+  userData: UserData;
   constructor(
     public fb: FormBuilder,
     private servServices: ServiciosService
   ) {
+    this.userData = JSON.parse(localStorage.getItem('data_user_cdental'))[0];
     this.formservicio = fb.group({
-      nombre: ['', [Validators.required]],
-      costo: ['', [Validators.required]],
-      servicio: ['', [Validators.required]],
+      SubServicio: ['', [Validators.required]],
+      precio: ['', [Validators.required]],
+      descripcion: ['ola', [Validators.required]],
+      id_servicios: ['', [Validators.required]],
     });
   }
   //#region getters validators
-  get subservicioNoValido(){
-    return this.formservicio.get('nombre').invalid && this.formservicio.get('nombre').touched;
+  get subservicioNoValido(): boolean {
+    return this.formservicio.get('SubServicio').invalid && this.formservicio.get('SubServicio').touched;
   }
-  get costoNoValido(){
-    return this.formservicio.get('costo').invalid && this.formservicio.get('costo').touched;
+  get costoNoValido(): boolean {
+    return this.formservicio.get('precio').invalid && this.formservicio.get('precio').touched;
   }
-  get servicioNoValido(){
-    return this.formservicio.get('servicio').invalid && this.formservicio.get('servicio').touched;
+  get descripcionNoValido(): boolean {
+    return this.formservicio.get('descripcion').invalid && this.formservicio.get('descripcion').touched;
+  }
+  get servicioNoValido(): boolean {
+    return this.formservicio.get('id_servicios').invalid && this.formservicio.get('id_servicios').touched;
   }
   //#endregion
 
-  setServicioSelected(subservicio: any, servicio: string, idservicio: number, indexsubservice: number, indexservice: number){
-    this.servicioselected.costo = subservicio.costo;
-    this.servicioselected.subservicio = subservicio.subservicio;
-    this.servicioselected.id_sub = subservicio.id_sub;
-    this.servicioselected.servicio = servicio;
-    this.servicioselected.id_servicio = idservicio;
-    this.indexsubservice = indexsubservice;
-    this.indexservice = indexservice;
+  setServicioSelected(subservicio: SubServicioList, servicio: ServicioList): void {
+    this.subServicioSelect = subservicio;
+    this.servicioSelect = servicio;
+    this.formservicio.patchValue({
+      SubServicio: this.subServicioSelect.SubServicio,
+      precio: this.subServicioSelect.precio,
+      id_servicios: this.servicioSelect.id_servicio,
+      descripcion: this.subServicioSelect.descripcion
+    });
   }
-  updatingSubServicio(){
-    if( this.formservicio.invalid){
-      return Object.values( this.formservicio.controls).forEach( control => {
+  updatingSubServicio(): void {
+    if (this.formservicio.invalid) {
+      return Object.values(this.formservicio.controls).forEach(control => {
         control.markAsTouched();
       });
     }
@@ -98,32 +68,47 @@ export class HomeServiciosComponent implements OnInit {
       text: 'Espere por favor...'
     });
     Swal.showLoading();
-    //al concluir refrescar la pagina sin perder la ruta
-    console.log(this.servicioselected);
+    // al concluir refrescar la pagina sin perder la ruta
+    console.log(this.formservicio.value);
+    this.servServices.updatingSubService(this.formservicio.value)
+      .subscribe(data => {
+        if (!data.error) {
+          Swal.fire('Se actualizo correctamente', '', 'success');
+        } else {
+          console.log(data);
+          Swal.fire('Ocurrio un error al actualizar', '', 'error');
+        }
+      });
   }
-  deletingSubServicio(){
+  deletingSubServicio(): void {
     Swal.fire({
-      title: `¿Deseas eliminar este subservicio ${this.servicioselected.subservicio}?`,
+      title: `¿Deseas eliminar este subservicio ${this.subServicioSelect.SubServicio}?`,
       icon: 'info',
       showCancelButton: true,
       confirmButtonText: `Aceptar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(this.servicios);
-        //aqui se comienza a consumir el servicio
-        this.servicios[this.indexservice].subservicios.splice(this.servicioselected[this.indexsubservice], 1);
-        Swal.fire('Eliminado!', '', 'success');
+        console.log(this.subServicioSelect.id_SubServicio);
+        // aqui se comienza a consumir el servicio
+        this.servServices.deleteSubService(this.subServicioSelect.id_SubServicio.toString())
+          .subscribe(data => {
+            if (!data.error) {
+              Swal.fire('Eliminado!', '', 'success');
+              this.ngOnInit();
+            } else {
+              console.log(data);
+              Swal.fire('Ocurrio un error al eliminarlo!', '', 'error');
+            }
+          }, err => console.log(err));
       }
     });
   }
   ngOnInit(): void {
+    this.servServices.getServiciosYSubServicios(this.userData.NoClinica)
+      .subscribe(data => {
+        if (!data.error) {
+          this.servicios = data.message;
+        }
+      }, err => console.log(err));
   }
-}
-
-export interface SubServicio{
-  subservicio: string;
-  costo: number;
-  servicio: string;
-  id_servicio: number;
-  id_sub: number;
 }

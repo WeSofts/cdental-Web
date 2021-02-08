@@ -1,12 +1,13 @@
 <div class="card border-primary mb-3 item-carnet"  (click)="VerCarnet()">
     <div class="card-header ">
         <div class="row" style="justify-content: space-between;">
-            <p> {{ carnet.nombre }} </p>
+            <p> {{ carnet.Paciente | uppercase }} </p>
             <i class="far fa-address-book fa-2x mr-1 text-primary"></i>
         </div>
     </div>
     <div class="card-body text-primary">
-      <h5 class="card-title">Servicios contratados.</h5>
-      <p class="card-text"> {{ carnet.servicio }} </p>
+      <h5 class="card-title">Servicio contratados.</h5>
+      <p class="card-text" style="margin-bottom: 0;" > {{ carnet.SubServicio }} </p>
+      <p class="card-text" style="margin-top: 0;"> {{ carnet.FechaContrato | date }} <small>Fecha de contrato</small> </p>
     </div>
 </div>

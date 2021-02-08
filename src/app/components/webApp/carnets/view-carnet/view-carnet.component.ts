@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CarnetsService } from 'src/app/services/app/carnets/carnets.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-view-carnet',
@@ -24,20 +25,48 @@ export class ViewCarnetComponent implements OnInit {
     { "id_cita": 3, "Fecha": "01/12/21", "Hora": "03:15 p.m." }
   ];
   // ===============================================================================
-  
+  bodycarnetdetails: BodyCarnetDetails = {
+    id_clinica: 0,
+    id_servicioclientes: 0,
+    id_paciente: 0,
+    id_subservicio: 0
+  };
+  resultDetails: any[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private carnets: CarnetsService,
     private dialog: MatDialog
-  ) { }
+  ) {
+   }
 
   carnet: any = {};
 
+  LoadCarnetDetails(): void {
+    this.bodycarnetdetails = {
+      id_clinica: JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica,
+      id_paciente: this.carnet.NoPaciente,
+      id_subservicio: this.carnet.NoSubservicio,
+      id_servicioclientes: this.carnet.NoServicioPaciente,
+    };
+    this.carnets.CarnetDetails(this.bodycarnetdetails)
+      .subscribe( (resp: any ) => {
+        this.resultDetails = resp.message;
+        Swal.close();
+      });
+  }
+
   ngOnInit(): void {
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'info',
+      text: 'Espere por favor...'
+    });
+    Swal.showLoading();
     this.activatedRoute.params.subscribe( params => {
       this.carnet = this.carnets.getCarnet(params['id']);
     });
+    this.LoadCarnetDetails();
   }
 
   openDialogEdit( carnetselected: any[] ): void {
@@ -53,4 +82,11 @@ export class ViewCarnetComponent implements OnInit {
     });*/
   }
 
+}
+
+export interface BodyCarnetDetails{
+  id_clinica: number;
+  id_paciente: number;
+  id_subservicio: number;
+  id_servicioclientes: number;
 }

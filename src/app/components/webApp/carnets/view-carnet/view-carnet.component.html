@@ -3,21 +3,25 @@
     <div class="row" style="justify-content: space-between;">
         <div class="details col-md-12 col-lg-6 col-sm-12" >
             <p>Carnet de</p>
-            <p style="font-weight: 700; font-size: 20px;" > {{ carnet.nombre }} </p>
-            <p style="font-weight: 500; font-size: 17px;" > {{ carnet.servicio }} </p>
+            <p style="font-weight: 700; font-size: 20px;" > {{ carnet.Paciente }} </p>
+            <p style="font-weight: 500; font-size: 17px;" > {{ carnet.SubServicio }} </p>
         </div>
         <div class=" col-md-4 col-lg-2 col-sm-4" style="text-align: center;" >
-            <p style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" >$400.00 MXN</p>
+            <p style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > {{ this.resultDetails[0].acumulado | currency }} MXN</p>
             <p style="color: gray; margin-top: 0; font-size: 15px;">Total acumulado</p>
         </div>
         <div class=" col-md-4 col-lg-2 col-sm-4" style="text-align: center;" >
-            <p style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" >$400.00 MXN</p>
+            <p style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > {{ this.resultDetails[0].ppagar - this.resultDetails[0].acumulado | currency }} MXN</p>
             <p style="color: gray; margin-top: 0; font-size: 15px;">Total por pagar</p>
         </div>
         <div class=" col-md-4 col-lg-2 col-sm-4" style="text-align: center;" >
-            <p style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" >$400.00 MXN</p>
+            <p style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > {{ this.resultDetails[0].pagos }}</p>
             <p style="color: gray; margin-top: 0; font-size: 15px;">Pagos Realizados</p>
         </div>
+        <button mat-button>
+            <mat-icon>assignment</mat-icon>
+            Ver Expediente e Historial Clínico
+        </button>
     </div>
 
 </div>

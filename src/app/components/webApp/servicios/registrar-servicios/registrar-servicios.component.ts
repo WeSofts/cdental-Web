@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
+import { ServiciosService } from '../../../../services/app/servicios/servicios.service';
+import { UserData } from '../../../../models/localSession.model';
+import { Servicios } from '../../../../models/services.model';
 
 @Component({
   selector: 'app-registrar-servicios',
@@ -11,67 +15,55 @@ export class RegistrarServiciosComponent implements OnInit {
 
   formservicio: FormGroup;
   formsubservicio: FormGroup;
-
-  servicios: ServiciosInfo[] = [
-    {
-      id_servicio: 1,
-      servicio: 'Endodoncia'
-    },
-    {
-      id_servicio: 2,
-      servicio: 'Periodoncia'
-    }
-  ];
-  newServicio: ServiciosInfo = {
-    id_servicio: 0,
-    servicio: ''
-  };
-  newSubServicio: SubServicioInfo = {
-    id_servicio: null,
-    sub_servicio: '',
-    precio: null
-  };
+  userData: UserData;
+  servicios: Servicios[];
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private serviciosService: ServiciosService
   ) {
-    this.formservicio = fb.group({
-      nombresrv: ['', [Validators.required]],
+    this.userData = JSON.parse(localStorage.getItem('data_user_cdental'))[0];
+    this.formservicio = this.fb.group({
+      Nombre: ['', [Validators.required]],
+      id_clinica: [this.userData.NoClinica],
     });
-    this.formsubservicio = fb.group({
-      nombresubsrv: ['', [Validators.required]],
-      costo: ['', [Validators.required]],
-      servicio: ['', [Validators.required]],
+    this.formsubservicio = this.fb.group({
+      SubServicio: ['', [Validators.required]],
+      precio: ['', [Validators.required]],
+      id_servicios: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
     });
   }
   //#region getters validators
-  get servicioNoValido(){
-    return this.formservicio.get('nombresrv').invalid && this.formservicio.get('nombresrv').touched;
+  get servicioNoValido(): boolean{
+    return this.formservicio.get('Nombre').invalid && this.formservicio.get('Nombre').touched;
   }
-  get costoNoValido(){
-    return this.formsubservicio.get('costo').invalid && this.formsubservicio.get('costo').touched;
+  get costoNoValido(): boolean{
+    return this.formsubservicio.get('precio').invalid && this.formsubservicio.get('precio').touched;
   }
-  get sservicioNoValido(){
-    return this.formsubservicio.get('servicio').invalid && this.formsubservicio.get('servicio').touched;
+  get descripcionNoValido(): boolean{
+    return this.formsubservicio.get('descripcion').invalid && this.formsubservicio.get('descripcion').touched;
   }
-  get subservicioNoValido(){
-    return this.formsubservicio.get('nombresubsrv').invalid && this.formsubservicio.get('nombresubsrv').touched;
+  get sservicioNoValido(): boolean{
+    return this.formsubservicio.get('id_servicios').invalid && this.formsubservicio.get('id_servicios').touched;
+  }
+  get subservicioNoValido(): boolean{
+    return this.formsubservicio.get('SubServicio').invalid && this.formsubservicio.get('SubServicio').touched;
   }
   //#endregion
 
-  NotExistsService(){
-    console.log(this.newServicio);
-    if(this.servicios.find(srv => srv.servicio === this.newServicio.servicio)){
+  NotExistsService(): boolean{
+    if (this.servicios.find(srv => srv.Nombre === this.formservicio.value.Nombre)){
       return false;
     }
   }
 
-  addServicio(){
-    if( this.formservicio.invalid){
+  addServicio(): void{
+    if (this.formservicio.invalid){
       return Object.values( this.formservicio.controls).forEach( control => {
         control.markAsTouched();
       });
     }
-    if(this.NotExistsService() === false){
+    if (this.NotExistsService() === false){
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -85,11 +77,28 @@ export class RegistrarServiciosComponent implements OnInit {
       text: 'Espere por favor...'
     });
     Swal.showLoading();
+    console.log(this.formservicio.value);
     // Aqui se comienza a consumir el servicio
+    this.serviciosService.insertService(this.formservicio.value)
+      .subscribe(data => {
+        if (!data.error) {
+          Swal.fire({
+            title: 'Se registro correctamente',
+            icon: 'success'
+          });
+          this.ngOnInit();
+        } else {
+          console.log(data);
+          Swal.fire({
+            title: 'No se registro correctamente',
+            icon: 'error',
+            text: data.message
+          });
+        }
+      }, err => console.log(err));
   }
-  addSubServicio(){
-    console.log(this.newSubServicio);
-    if( this.formsubservicio.invalid){
+  addSubServicio(): void{
+    if (this.formsubservicio.invalid){
       return Object.values( this.formsubservicio.controls).forEach( control => {
         control.markAsTouched();
       });
@@ -101,20 +110,31 @@ export class RegistrarServiciosComponent implements OnInit {
     });
     Swal.showLoading();
     // Aqui se comienza a consumir el servicio
+    this.serviciosService.insertSubService(this.formsubservicio.value)
+      .subscribe(data => {
+        if (!data.error) {
+          Swal.fire({
+            title: 'Se registro correctamente el sub servicio',
+            icon: 'success'
+          });
+        } else {
+          console.log(data);
+          Swal.fire({
+            title: 'Ocurrio un error al registrar el sub servicio',
+            icon: 'error',
+            text: data.message
+          });
+        }
+      }, err => console.log(err));
   }
 
   ngOnInit(): void {
+    forkJoin({
+      servicios: this.serviciosService.getServicios(this.userData.NoClinica.toString())
+    }).subscribe(data => {
+      if (!data.servicios.error) {
+        this.servicios = data.servicios.message;
+      }
+    }, err => console.log(err));
   }
-
-}
-
-export interface ServiciosInfo{
-  id_servicio: number;
-  servicio: string;
-}
-
-export interface SubServicioInfo{
-  id_servicio: number;
-  sub_servicio: string;
-  precio: number;
 }

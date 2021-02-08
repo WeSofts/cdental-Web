@@ -15,22 +15,25 @@ export class ServiciosService {
     private appConfig: AppConfig
   ) {}
 
-  InsertService(body: any){
-    return true;
+  insertService(body: any): Observable<any>{
+    return this.http.post(`${this.appConfig.APP_ENDPOINT}dentista/add-service`, body);
   }
-  InsertSubService(body: any){
-    return true;
+  insertSubService(body: any): Observable<any>{
+    return this.http.post(`${this.appConfig.APP_ENDPOINT}dentista/add-sub-service`, body);
   }
-  DeleteSubService(body: any){
-    return true;
+  deleteSubService(idSubService: string): Observable<any>{
+    return this.http.post(`${this.appConfig.APP_ENDPOINT}dentista/delete-sub-service`, {id_SubServicio: idSubService});
   }
-  UpdatingSubService(body: any){
-    return true;
+  updatingSubService(body: any): Observable<any>{
+    return this.http.put(`${this.appConfig.APP_ENDPOINT}dentista/update-sub-service`, body);
   }
-  GetServicios(body: any){
-
+  getServicios(idClinica: string): Observable<any>{
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/all-services-by-clinic', {id_clinica: idClinica});
   }
-  GetSubServicios(body: any){
-    
+  getServiciosYSubServicios(idClinica: string): Observable<any>{
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/all-services-subservices-clinic', {id_clinica: idClinica});
+  }
+  getSubServicios(idServicio: string): Observable<any>{
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/all-sub-service-by-service', {id_servicio: idServicio});
   }
 }

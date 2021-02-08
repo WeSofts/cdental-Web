@@ -1,3 +1,4 @@
+
 <div class="col" style="text-align: center;" *ngIf="emptysearching">
     <div class="col" >
         <img src="../../../../../assets/illustrations/notfoud_item.svg" class="d-block w-100" width="200px" height="160px">
@@ -7,5 +8,6 @@
 </div>
 
 <div class="container75 row">
-    <app-carnet [carnet]="item" [index]="item.idx" class="col-md-4 col-sm-12" style="cursor: pointer;" *ngFor="let item of carnetsfilter; let i = index" ></app-carnet>
+    <app-carnet [carnet]="item" [index]="i" class="col-md-4 col-sm-12" style="cursor: pointer;" *ngFor="let item of carnetsfilter; let i = index" ></app-carnet>
+
 </div>

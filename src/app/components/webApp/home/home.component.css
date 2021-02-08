@@ -1,3 +1,4 @@
+
 h1 {
     color: #000;
     background: cyan;
@@ -39,7 +40,7 @@ h1 {
     padding: 15px 15px 15px 15px;
 }
 .card-body-dash:hover{
-    box-shadow: 2px 1px 18px 7px #ff9ff3;
+    box-shadow: 2px 1px 18px 7px #ffcbf8;
     -webkit-transition: box-shadow 1000ms linear;
     -ms-transition: box-shadow 1000ms linear;
     transition: box-shadow 500ms linear;

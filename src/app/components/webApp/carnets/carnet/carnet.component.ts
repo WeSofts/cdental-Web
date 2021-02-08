@@ -1,3 +1,4 @@
+
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -15,6 +16,7 @@ export class CarnetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
   }
 
   VerCarnet(){

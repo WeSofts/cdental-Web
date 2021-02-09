@@ -33,39 +33,39 @@
             <div class="row" style="justify-content: space-between; padding: 0 25px 25px 25px;">
                 <p>Pagos realizados</p>
                 <div class="row">
-                    <button mat-button>
+                    <button mat-button (click)="imprimir('1')">
                         <mat-icon>print</mat-icon>
                         Imprimir
                     </button>
-                    <button mat-flat-button color="primary" (click)="openDialogEdit( null )">
+                    <button mat-flat-button color="primary" (click)="openDialogEdit( 'pago' )">
                         <mat-icon>add</mat-icon> Agregar pago
                     </button>
                 </div>
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="margin: 20px 0 0 0; width: 100%; padding: 0 25px 25px 25px;">
+                <table mat-table [dataSource]="pagosRealizados" class="mat-elevation-z8" style="margin: 20px 0 0 0; width: 100%; padding: 0 25px 25px 25px;">
                     <ng-container matColumnDef="Fecha">
                       <th mat-header-cell *matHeaderCellDef> Fecha. </th>
-                      <td mat-cell *matCellDef="let element"> {{element.Fecha}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.FechaPago | date}} </td>
                     </ng-container>
                   
                     
                     <ng-container matColumnDef="Cantidad">
                       <th mat-header-cell *matHeaderCellDef> Cantidad </th>
-                      <td mat-cell *matCellDef="let element"> {{element.Cantidad}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.CantidadPago}} </td>
                     </ng-container>
                   
                     
                     <ng-container matColumnDef="Recibio">
                       <th mat-header-cell *matHeaderCellDef> Recibio </th>
-                      <td mat-cell *matCellDef="let element"> {{element.Recibio}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.ConceptoPago}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Opciones">
                         <th mat-header-cell *matHeaderCellDef> Opciones </th>
                         <td mat-cell *matCellDef="let element"> 
-                            <button mat-icon-button color="primary" (click)="openDialogEdit(element)">
+                            <button mat-icon-button color="primary" (click)="openDialogEdit('editar-pago', element)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button color="primary" >
+                            <button mat-icon-button color="primary" (click)="deleteElement(element, '2')">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </td>
@@ -80,33 +80,33 @@
             <div class="row" style="justify-content: space-between; padding: 0 25px 25px 25px;">
                 <p style="">Citas agendadas</p>
                 <div class="row">
-                    <button mat-button>
+                    <button mat-button (click)="imprimir('2')">
                         <mat-icon>print</mat-icon>
                         Imprimir
                     </button>
-                    <button mat-flat-button color="primary"  >
+                    <button mat-flat-button color="primary" (click)="openDialogEdit('cita')">
                         <mat-icon>add</mat-icon> Agregar cita
                     </button>
                 </div>
-                <table mat-table [dataSource]="dataSourceCitas" class="mat-elevation-z8" style="margin: 20px 0 0 0; width: 100%; padding: 0 25px 25px 25px;">
+                <table mat-table [dataSource]="citasCarnet" class="mat-elevation-z8" style="margin: 20px 0 0 0; width: 100%; padding: 0 25px 25px 25px;">
                     <ng-container matColumnDef="Fecha">
                       <th mat-header-cell *matHeaderCellDef> Fecha. </th>
-                      <td mat-cell *matCellDef="let element"> {{element.Fecha}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.FechaCita | date}} </td>
                     </ng-container>
                   
                     
                     <ng-container matColumnDef="Hora">
                       <th mat-header-cell *matHeaderCellDef> Hora </th>
-                      <td mat-cell *matCellDef="let element"> {{element.Hora}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.HoraCita}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Opciones">
                         <th mat-header-cell *matHeaderCellDef> Opciones </th>
                         <td mat-cell *matCellDef="let element"> 
-                            <button mat-icon-button color="primary"  >
+                            <button mat-icon-button color="primary" (click)="openDialogEdit('editar-cita', element)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button color="primary" >
+                            <button mat-icon-button color="primary" (click)="deleteElement(element, '1')" >
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </td>

@@ -19,4 +19,8 @@ export class InicioAppServices {
         return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/stadistics', body);
     }
 
+    getAgenda(body: any): Observable<any> {
+        return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/agenda/loadcites', body);
+    }
+
 }

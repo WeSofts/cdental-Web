@@ -20,6 +20,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [],
@@ -43,9 +45,11 @@ import {MatChipsModule} from '@angular/material/chips';
     MatChipsModule,
     MatSlideToggleModule,
     MatStepperModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule,
   ],
   exports: [
+    MatCheckboxModule,
     MatDialogModule,
     MatTableModule,
     MatBadgeModule,

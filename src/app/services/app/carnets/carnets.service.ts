@@ -43,4 +43,32 @@ export class CarnetsService {
   CarnetDetails( body: any ): Observable<any> {
     return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/carnets/carnetdetails', body);
   }
+  getAllCites(idPacientes: string): Observable<any> {
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/carnet/cites/select-cites', {id_pacientes: idPacientes});
+  }
+  loadCities(idPacientes: string): Observable<any> {
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/carnet/cites/loadcites', {id_paciente: idPacientes});
+  }
+  loadPayments(idPacientes: string): Observable<any> {
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/carnet/cites/loadpayments', {id_paciente: idPacientes});
+  }
+  addPayment(body: any): Observable<any> {
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/carnet/cites/addpayment', body);
+  }
+  updatePayment(body: any): Observable<any> {
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/carnet/cites/updatepayment', body);
+  }
+  deletePayment(body: any): Observable<any> {
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/carnet/cites/deletepayment', body);
+  }
+  addCite(body: any): Observable<any> {
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/carnet/cites/addcites', body);
+  }
+  updateCite(body: any): Observable<any> {
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/carnet/cites/updatecite', body);
+  }
+  deleteCite(body: any): Observable<any> {
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/carnet/cites/deletecite', body);
+  }
+
 }

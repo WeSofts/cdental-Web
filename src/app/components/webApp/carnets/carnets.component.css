@@ -120,3 +120,9 @@
     -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.1); 
     box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.1);
 }
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+    z-index: 99999 !important;
+ }
+ .cdk-overlay-container {
+    z-index: 9999 !important;
+  }

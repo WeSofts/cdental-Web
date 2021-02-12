@@ -1,1 +1,209 @@
-<p>registro works!</p>
+<div class="row" *ngIf="isProcessingelection" class="pleasewait">
+  <mat-spinner ></mat-spinner>
+  <small style="font-size: 20px; color: white; font-weight: 600; margin-left: 8px;" >Espere por favor...</small>
+</div>
+
+<div class="header-services mt-3">
+    <h2 style="margin-bottom: 0;"> Registrar Nuevo Paciente </h2>
+    <p style="margin-top: 0;"> Ingresa la información requerida para dar de alta a un paciente. </p>
+</div>
+
+<mat-horizontal-stepper labelPosition="bottom" #stepper  linear>
+    <mat-step [stepControl]="formInfoPaciente">
+      <form [formGroup]="formInfoPaciente">
+        <ng-template matStepLabel> <mat-icon>person_pin</mat-icon> Información del paciente</ng-template>
+        <div class="mt-2 mb-2">
+            <p style="margin-bottom: 0;" >Ingresa la información del paciente</p>
+            <small style="margin-top: 0;" > * Campos obligatorios. </small>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Nombre de paciente</mat-label>
+                <input matInput placeholder="Nombre de paciente" required formControlName="Nombre" maxlength="125">
+                <mat-icon matSuffix> person </mat-icon>
+                <mat-error *ngIf="nombreNoValido">Nombre<strong> inválido.</strong></mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Edad de paciente</mat-label>
+                <input matInput placeholder="Edad de paciente" required formControlName="Edad" type="number">
+                <mat-icon matSuffix> person_outline </mat-icon>
+                <mat-error *ngIf="edadNoValido">Edad<strong> inválido.</strong></mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Direccion de paciente</mat-label>
+                <input matInput placeholder="Direccion de paciente" required formControlName="Direccion" maxlength="150" minlength="12">
+                <mat-icon matSuffix> my_location </mat-icon>
+                <mat-error *ngIf="direccionNoValido">Direccion<strong> inválido.</strong></mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Radica </mat-label>
+                <input matInput placeholder="Radica" required formControlName="Radica">
+                <mat-icon matSuffix> map </mat-icon>
+                <mat-error *ngIf="radicaNoValido">Valor<strong> inválido.</strong></mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Telefono de paciente</mat-label>
+                <input matInput placeholder="Telefono de paciente" required formControlName="Telefono" type="number" maxlength="12">
+                <mat-icon matSuffix> phone </mat-icon>
+                <mat-error *ngIf="telefonoNoValido">Telefono<strong> inválido.</strong></mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Email de paciente</mat-label>
+                <input matInput placeholder="Email de paciente" formControlName="Email" type="email" maxlength="75">
+                <mat-icon matSuffix> alternate_email </mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Alergias </mat-label>
+                <input matInput placeholder="Alergias" formControlName="Alergias">
+                <mat-icon matSuffix> mood_bad </mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Cirugias de paciente</mat-label>
+                <input matInput placeholder="Cirugias de paciente" formControlName="Cirugias">
+                <mat-icon matSuffix> local_hospital </mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Enfermedades de paciente</mat-label>
+                <input matInput placeholder="Enfermedades de paciente"  formControlName="Enfermedades">
+                <mat-icon matSuffix> mood_bad </mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+        <div>
+          <button mat-button matStepperNext (click)="SetOtherInfo()" >Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+    
+    <!-- ServiciosSection -->
+    <mat-step [stepControl]="formInfoServicio" >
+        <ng-template matStepLabel> <mat-icon>add_shopping_cart</mat-icon> Servicios a contratar</ng-template>
+        <div class="row " style="justify-content: space-between;">
+            <div class="col-md-5 col-lg-5 col-sm-12 mt-2">
+                <form [formGroup]="formInfoServicio"  >
+                    <div>
+                        <h2 style="margin-bottom: 0;">Selecciona un servicio</h2>
+                        <h4>Los costos se calcularan con ayuda de la siguiente información</h4>
+                    </div>
+                    <mat-form-field appearance="fill" class="mt-3">
+                        <mat-label>Servicio</mat-label>
+                        <input [(ngModel)]="tempchoose" formControlName="Servicio" name="Servicio" id="Servicio" type="text" placeholder="Servicio" aria-label="Servicio" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                        <mat-error *ngIf="ServicioNoValido">Servicio <strong> inválido.</strong></mat-error>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="ServiceSelected($event)">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{ option.SubServicio }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </form>
+                    <div class="mt-2">
+                        <mat-slide-toggle [(ngModel)]="isChecked" (change)="ResetValue()" > Multiplicar precio </mat-slide-toggle>
+                        <mat-form-field appearance="outline" *ngIf="isChecked">
+                            <mat-label>Multiplicar valor de servicio por</mat-label>
+                            <input matInput placeholder="Veces a multiplicar" type="number" #valor (keyup.enter)="Multiplicar(valor.value)">
+                        </mat-form-field>
+                    </div>
+                    <div class="mt-3">
+                        <button mat-flat-button color="warn" style="width: 100%;" (click)="ChangeTotal()" > Cambiar Total </button>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-5 col-sm-12" style="text-align: right;" >
+                    <small>Dentista</small>
+                    <p> {{ otherinfo.Dentista }} </p>
+                    <small>Servicio</small>
+                    <p> {{ currentService.Servicio }} </p>
+                    <small>SubServicio</small>
+                    <p> {{ currentService.SubServicio }} </p>
+                    <small>Costo</small>
+                    <p> {{ currentService.Costo | currency }}  MXN</p>
+                    <small>Paciente</small>
+                    <p> {{ otherinfo.Paciente }} </p>
+                    <small>Inicio Servicio</small>
+                    <p> {{ otherinfo.Fecha | date }} </p>
+                    <mat-divider></mat-divider>
+                    <small>Total</small>
+                    <h2 > {{ total | currency }} MXN </h2>
+                </div>
+            </div>
+            <div>
+              <button mat-button matStepperPrevious>Regresar</button>
+              <button mat-button matStepperNext (click)="LoadInfo()" >Siguiente</button>
+            </div>
+          </mat-step>
+          
+          <mat-step>
+            <ng-template matStepLabel> <mat-icon>done_outline</mat-icon> Confirmación </ng-template>
+            <div>
+              <h2 style="margin-bottom: 0;">Confirmación del servicio</h2>
+              <h4>Se registrará la siguiente información. <br> Haga clic en 'confirmar' si todo está correcto. </h4>
+            </div>
+
+            <div class="row justify-content-between mt-3">
+              <div class="col-md-6 col-lg-4 col-sm-12" >
+                <small>Dentista</small>
+                <h4> {{ otherinfo.Dentista }} </h4>
+              </div>
+              <div class="col-md-6 col-lg-4 col-sm-12" >
+                <small>Paciente</small>
+                <h4> {{ otherinfo.Paciente }} </h4>
+              </div>
+              <div class="col-md-6 col-lg-4 col-sm-12" >
+                <small>Fecha de inicio</small>
+                <h4> {{ otherinfo.Fecha | date }} </h4>
+              </div>
+              <div class="col-md-6 col-lg-4 col-sm-12" >
+                <small>Servicio</small>
+                <h4> {{ currentService.Servicio }} </h4>
+              </div>
+              <div class="col-md-6 col-lg-4 col-sm-12" >
+                <small>SubServicio</small>
+                <h4> {{ currentService.SubServicio }} </h4>
+              </div>
+              <div class="col-md-6 col-lg-4 col-sm-12" >
+                <small>Descripcion</small>
+                <h4> {{ currentService.DescSubServicio }} </h4>
+              </div>
+              <div class="col-md-6 col-lg-4 col-sm-12" >
+                <small>Costo</small>
+                <h4> {{ currentService.Costo | currency }} </h4>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div style="text-align: right;" >
+              <h5 style="margin-bottom: 0;" >Total a pagar</h5>
+              <h1 style="margin-top: 0;" > {{ total | currency }} </h1>
+            </div>
+            <div>
+              <button mat-button matStepperPrevious>Regresar</button>
+              <button mat-button (click)="ConfirmationService()" >Confirmar</button>
+            </div>
+          </mat-step>
+  </mat-horizontal-stepper>
+  

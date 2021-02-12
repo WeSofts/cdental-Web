@@ -1,1 +1,30 @@
-<p>navbar de pacientes works!</p>
+<div class="container mt-3">
+    
+    <div class="header-services">
+        <h2 style="margin-bottom: 0;"> Pacientes </h2>
+        <p style="margin-top: 0;"> Registra un nuevo paciente, añade un servicio a un paciente registrado o envía una cotización por correo. </p>
+    </div>
+    
+    <nav mat-tab-nav-bar mat-stretch-tabs mat-align-tabs="center" class="mt-2">
+        <a mat-tab-link 
+        *ngFor="let link of navLinks"
+        [routerLink]="link.link"
+        routerLinkActive #rla="routerLinkActive"
+        [active]="rla.isActive" >
+            <mat-icon *ngIf="link.index == 0">
+                home
+            </mat-icon>
+            <mat-icon  *ngIf="link.index == 1">
+                group_add
+            </mat-icon>
+            <mat-icon  *ngIf="link.index == 2">
+                library_add
+            </mat-icon>
+            <mat-icon  *ngIf="link.index == 3">
+                assignment_returned
+            </mat-icon>
+            {{ link.label }}
+        </a>
+    </nav>
+    <router-outlet></router-outlet>
+    </div>

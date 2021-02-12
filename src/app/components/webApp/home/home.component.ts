@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 import { InicioAppServices } from '../../../services/app/home/home.service';
+import { CarnetComponent } from '../carnets/carnet/carnet.component';
+import { ViewCarnetComponent } from '../carnets/view-carnet/view-carnet.component';
 
 
 @Component({
@@ -8,28 +12,63 @@ import { InicioAppServices } from '../../../services/app/home/home.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  displayedColumns: string[] = ['id_paciente', 'horario', 'paciente', 'servicio', 'costo'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['Hora', 'Paciente', 'Servicio', 'Costo'];
+  dataSource: any[];
   fecha = new Date();
   currensatdistic: CurrentDateStadistic;
-
   StadisticsObject = {};
+  bodyagendarequest = {};
+  carnetselected = {};
   constructor(
-    private homeservice: InicioAppServices
+    private homeservice: InicioAppServices,
+    private router: Router
   ) {
     this.currensatdistic = {
       mes_estadisticas: this.fecha.getMonth() + 1,
       anio_estadisticas: this.fecha.getFullYear(),
-      dia_estadisticas: this.fecha.getDay(),
+      dia_estadisticas: this.fecha.getDate(),
       id_clinica: JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica
     };
+    this.bodyagendarequest = {
+      id_clinica: JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica
+    };
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'info',
+      text: 'Espere por favor...'
+    });
+    Swal.showLoading();
     this.homeservice.getStadistics(this.currensatdistic)
       .subscribe(
         (resp: any) => {
           this.StadisticsObject = resp.message;
-          console.log(this.StadisticsObject);
+          console.log('stadistics', this.StadisticsObject);
+          this.homeservice.getAgenda(this.bodyagendarequest)
+            .subscribe( (resp: any) => {
+              this.dataSource = resp.message;
+              console.log(this.dataSource);
+              Swal.close();
+            });
         }
       );
+  }
+
+  openCarnet(item: any): void {
+    this.carnetselected = {
+      id_clinica: JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica,
+      id_paciente: item.NoPaciente,
+      id_subservicio: item.NoSubservicio,
+      id_servicioclientes: item.NoServicioPaciente,
+    };
+    let datatemp = JSON.stringify(this.carnetselected);
+    this.carnetselected = {
+      Paciente: item.Paciente,
+      SubServicio: item.SubServicio
+    };
+    let datatemppaciente = JSON.stringify(this.carnetselected);
+    localStorage.setItem('carnet_selected', datatemp );
+    localStorage.setItem('carnet_selected_paciente', datatemppaciente );
+    this.router.navigateByUrl(`/cdental/vercarnet/${item.NoPaciente}`);
   }
 
   get getNameMonth(){
@@ -37,7 +76,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
   }
 }
 
@@ -45,12 +83,15 @@ const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
 ];
 
-export interface PeriodicElement {
-  horario: string;
-  paciente: string;
-  servicio: string;
-  costo: number;
-  id_paciente: number;
+export interface ResultBodyAgenda {
+  NoPaciente: number;
+  Paciente: string;
+  NoCita: number;
+  FechaCita: string;
+  HorarioCita: string;
+  AsistennciaCita: number;
+  SubServicio: string;
+  Costo: number;
 }
 export interface CurrentDateStadistic{
   dia_estadisticas: number;
@@ -58,17 +99,3 @@ export interface CurrentDateStadistic{
   mes_estadisticas: number;
   id_clinica: number;
 }
-
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {id_paciente: 1, paciente: 'Hydrogen', costo: 1.0079, servicio: 'H', horario: '09:00 am - 10:00 pm'},
-  {id_paciente: 2, paciente: 'Helium', costo: 4.0026, servicio: 'He', horario: '09:00 am - 10:00 pm'},
-  {id_paciente: 3, paciente: 'Lithium', costo: 6.941, servicio: 'Li', horario: '09:00 am - 10:00 pm'},
-  {id_paciente: 4, paciente: 'Beryllium', costo: 9.0122, servicio: 'Be', horario: '09:00 am - 10:00 pm'},
-  {id_paciente: 5, paciente: 'Boron', costo: 10.811, servicio: 'B', horario: '09:00 am - 10:00 pm'},
-  {id_paciente: 6, paciente: 'Carbon', costo: 12.0107, servicio: 'C', horario: '09:00 am - 10:00 pm'},
-  {id_paciente: 7, paciente: 'Nitrogen', costo: 14.0067, servicio: 'N', horario: '09:00 am - 10:00 pm'},
-  {id_paciente: 8, paciente: 'Oxygen', costo: 15.9994, servicio: 'O', horario: '09:00 am - 10:00 pm'},
-  {id_paciente: 9, paciente: 'Fluorine', costo: 18.9984, servicio: 'F', horario: '09:00 am - 10:00 pm'},
-  {id_paciente: 10, paciente: 'Neon', costo: 20.1797, servicio: 'Ne', horario: '09:00 am - 10:00 pm'},
-];

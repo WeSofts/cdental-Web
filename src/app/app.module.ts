@@ -30,6 +30,7 @@ import { AllCarnetsComponent } from './components/webApp/carnets/all-carnets/all
 import { CarnetComponent } from './components/webApp/carnets/carnet/carnet.component';
 import { ViewCarnetComponent } from './components/webApp/carnets/view-carnet/view-carnet.component';
 import { DialogCarnetComponent } from './components/webApp/carnets/view-carnet/dialog-carnet/dialog-carnet.component';
+import { DialogOpenComponent } from './components/webApp/pacientes/inicio/dialog-open/dialog-open.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { DialogCarnetComponent } from './components/webApp/carnets/view-carnet/d
     AllCarnetsComponent,
     CarnetComponent,
     ViewCarnetComponent,
-    DialogCarnetComponent
+    DialogCarnetComponent,
+    DialogOpenComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 
 import { DialogCarnetComponent } from './dialog-carnet/dialog-carnet.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CarnetsService } from 'src/app/services/app/carnets/carnets.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
@@ -23,8 +23,8 @@ export class ViewCarnetComponent implements OnInit {
   // ===============================================================================
   bodycarnetdetails: BodyCarnetDetails = {
     id_clinica: 0,
-    id_servicioclientes: 0,
     id_paciente: 0,
+    id_servicioclientes: 0,
     id_subservicio: 0
   };
   resultDetails: any[];
@@ -38,15 +38,24 @@ export class ViewCarnetComponent implements OnInit {
   carnet: any = {};
 
   LoadCarnetDetails(): void {
-    this.bodycarnetdetails = {
-      id_clinica: JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica,
-      id_paciente: this.carnet.NoPaciente,
-      id_subservicio: this.carnet.NoSubservicio,
-      id_servicioclientes: this.carnet.NoServicioPaciente,
-    };
+    if ( !localStorage.getItem('carnet_selected') ){
+      this.bodycarnetdetails = {
+        id_clinica: JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica,
+        id_paciente: this.carnet.NoPaciente,
+        id_subservicio: this.carnet.NoSubservicio,
+        id_servicioclientes: this.carnet.NoServicioPaciente,
+      };
+    } else {
+      this.bodycarnetdetails = JSON.parse(localStorage.getItem('carnet_selected'));
+      localStorage.removeItem('carnet_selected');
+      this.carnet = JSON.parse(localStorage.getItem('carnet_selected_paciente'));
+      localStorage.removeItem('carnet_selected_paciente');
+    }
     this.carnets.CarnetDetails(this.bodycarnetdetails)
       .subscribe( (resp: any ) => {
         this.resultDetails = resp.message;
+        console.log(this.resultDetails, "result");
+        Swal.close();
       });
   }
 

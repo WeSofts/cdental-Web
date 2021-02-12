@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTableModule} from '@angular/material/table';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSelectModule} from '@angular/material/select';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatCardModule} from '@angular/material/card';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
@@ -21,18 +27,24 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
   declarations: [],
   imports: [
     CommonModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
     MatTableModule,
     MatBadgeModule,
     MatCardModule,
     MatTabsModule,
     MatIconModule,
     MatDividerModule,
+    MatAutocompleteModule,
+    MatSnackBarModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
     MatChipsModule,
+    MatSlideToggleModule,
+    MatStepperModule,
     MatDialogModule,
     MatCheckboxModule,
   ],
@@ -50,7 +62,13 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatChipsModule
+    MatProgressSpinnerModule,
+    MatSlideToggleModule,
+    MatPaginatorModule,
+    MatSnackBarModule,
+    MatStepperModule,
+    MatChipsModule,
+    MatAutocompleteModule
 
   ]
 })

@@ -1,1 +1,83 @@
-<p>inicio works!</p>
+<div class="container">
+    <div class="row" style="justify-content: space-between;">
+        <div class="col-md-8 col-sm-12 col-lg-8 divs" >
+            <div class="row justify-content-between">
+                <div class="col-md-5 col-sm-12 col-lg-5 title-srch">
+                    <p style="font-weight: 700; font-size: 18px;" >Todos tus pacientes</p>
+                    <p>Busca, mira y edita sus detalles.</p>
+                </div>
+                <div class="col-md-5 col-sm-12 col-lg-5">
+                    <mat-form-field appearance="fill" style="width: 100%;">
+                        <mat-label>Buscar</mat-label>
+                        <input matInput placeholder="Buscar..." matInput (keyup)="applyFilter($event)" #input>
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <mat-divider>
+            </mat-divider>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
+                <!-- Position Column -->
+                <ng-container matColumnDef="Paciente">
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div class="col-12">
+                            <span *ngIf="element.EstadoContrato==0" class="badge badge-danger mb-0">Pendiente</span>
+                            <span *ngIf="element.EstadoContrato==1" class="badge badge-success mb-0">Concluido</span>
+                            <p style="margin-top: 0;"> {{element.Paciente}} </p>
+                        </div>
+                    </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="SubServicio">
+                  <th mat-header-cell *matHeaderCellDef> SubServicio </th>
+                  <td mat-cell *matCellDef="let element"> {{element.SubServicio}} </td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="FechaContrato">
+                  <th mat-header-cell *matHeaderCellDef> Fecha de Contrato </th>
+                  <td mat-cell *matCellDef="let element"> {{element.FechaContrato | date }} </td>
+                </ng-container>
+
+                <!-- Opciones -->
+                <ng-container matColumnDef="Opciones">
+                    <th mat-header-cell *matHeaderCellDef> Opciones </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        <button mat-icon-button color="primary" (click)="OpenPaciente(element)"  >
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary"  (click)="DeletePaciente(element)" >
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4"> <mat-icon>error</mat-icon> No se encontró "{{input.value}}" </td>
+                </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[1, 5, 10, 25, 100]"></mat-paginator>
+              
+        </div>
+        <div class="col-md-4 col-sm-12 col-lg-4 divs" >
+            <div class="col-12 card-right">
+                <div class="row justify-content-between">
+                    <div class="col-4 icon-div">
+                        <div class="icon-card">
+                            <i class="fas fa-users fa-1x" style="color: #6495ED;"></i>
+                        </div>
+                    </div>
+                    <div class="col-8" style="text-align: end;">
+                        <p class="title-cust-card" > {{ total }} </p>
+                        <p>Clientes registrados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

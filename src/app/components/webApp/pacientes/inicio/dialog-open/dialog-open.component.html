@@ -1,0 +1,161 @@
+<div class="example-loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner ></mat-spinner>
+</div>
+<div mat-dialog-title>
+    <div class="row">
+      <mat-icon>person</mat-icon>
+      <div class="div ml-1">
+        <strong>Acerca de </strong> {{ data.Paciente }}
+        <p> {{ data.SubServicio }} - <small> {{ data.FechaContrato | date }} </small>  </p>
+      </div>
+    </div>
+</div>
+  <mat-dialog-content class="mat-typography">
+      <div class="row ">
+        <div class="col-md-7 col-lg-7 col-sm-12 divs" >
+          <form [formGroup]="formpaciente" name="formpaciente">
+            <div class="row justify-content-between">
+              <div class="col-md-6 col-lg-6 col-sm-12">
+                <mat-form-field appearance="fill">
+                  <mat-label>Nombre de paciente</mat-label>
+                  <input matInput placeholder="Nombre de paciente" required formControlName="Nombre" maxlength="125">
+                  <mat-icon matSuffix> person </mat-icon>
+                  <mat-error *ngIf="nombreNoValido">Nombre<strong> inválido.</strong></mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 col-lg-6 col-sm-12">
+                <mat-form-field appearance="fill">
+                  <mat-label>Edad de paciente</mat-label>
+                  <input matInput placeholder="Edad de paciente" required formControlName="Edad" type="number">
+                  <mat-icon matSuffix> person_outline </mat-icon>
+                  <mat-error *ngIf="edadNoValido">Edad<strong> inválido.</strong></mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-lg-12 col-sm-12">
+                <mat-form-field appearance="fill">
+                  <mat-label>Direccion de paciente</mat-label>
+                  <input matInput placeholder="Direccion de paciente" required formControlName="Direccion" maxlength="150" minlength="12">
+                  <mat-icon matSuffix> my_location </mat-icon>
+                  <mat-error *ngIf="direccionNoValido">Direccion<strong> inválido.</strong></mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row justify-content-between">
+              <div class="col-md-6 col-lg-6 col-sm-12">
+                <mat-form-field appearance="fill">
+                  <mat-label>Radica </mat-label>
+                  <input matInput placeholder="Radica" required formControlName="Radica">
+                  <mat-icon matSuffix> map </mat-icon>
+                  <mat-error *ngIf="radicaNoValido">Valor<strong> inválido.</strong></mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 col-lg-6 col-sm-12">
+                <mat-form-field appearance="fill">
+                  <mat-label>Telefono de paciente</mat-label>
+                  <input matInput placeholder="Telefono de paciente" required formControlName="Telefono" type="number" maxlength="12">
+                  <mat-icon matSuffix> phone </mat-icon>
+                  <mat-error *ngIf="telefonoNoValido">Telefono<strong> inválido.</strong></mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-lg-12 col-sm-12">
+                <mat-form-field appearance="fill">
+                  <mat-label>Email de paciente</mat-label>
+                  <input matInput placeholder="Email de paciente" formControlName="Email" type="email" maxlength="75">
+                  <mat-icon matSuffix> alternate_email </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row justify-content-between">
+              <div class="col-md-6 col-lg-6 col-sm-12">
+                <mat-form-field appearance="fill">
+                  <mat-label>Alergias </mat-label>
+                  <input matInput placeholder="Alergias" formControlName="Alergias">
+                  <mat-icon matSuffix> mood_bad </mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 col-lg-6 col-sm-12">
+                <mat-form-field appearance="fill">
+                  <mat-label>Cirugias de paciente</mat-label>
+                  <input matInput placeholder="Cirugias de paciente" formControlName="Cirugias">
+                  <mat-icon matSuffix> local_hospital </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-lg-12 col-sm-12">
+                <mat-form-field appearance="fill">
+                  <mat-label>Enfermedades de paciente</mat-label>
+                  <input matInput placeholder="Enfermedades de paciente"  formControlName="Enfermedades">
+                  <mat-icon matSuffix> mood_bad </mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+          </div>
+          <div class="col-md-5 col-lg-5 col-sm-12 divs" >
+              <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="row" *ngIf="isUploadingResults" class="uploading">
+                  <mat-spinner ></mat-spinner>
+                  <small style="font-size: 20px; color: white; font-weight: 600;" >Subiendo...</small>
+                </div>
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <mat-card class="example-card">
+                          <mat-card-header class="row justify-content-between">
+                            <mat-card-title>Radiografía</mat-card-title>
+                            <button mat-button (click)="UploadRadio()" > <mat-icon> insert_photo</mat-icon>  Actualizar radiografía</button>
+                          </mat-card-header>
+                          <div class="custom-file mt-1 mb-1">
+                            <input #image type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" (change)="readURL($event);">
+                            <label class="custom-file-label" for="inputGroupFile01">Elegir imagen</label>
+                          </div>
+                          <img mat-card-image [src]=" currentinfo.Radiografia || 'http://tecdevsmx.com/cdental_uploads/preview_cdental.png'" alt="radio" width="100%"/>
+                      </mat-card>
+                    </div>
+                    <div class="carousel-item">
+                      <mat-card class="example-card">
+                        <mat-card-header class="row justify-content-between">
+                          <mat-card-title>Moldes</mat-card-title>
+                          <button mat-button (click)="UploadMoldes()" > <mat-icon> insert_photo</mat-icon>  Actualizar Molde</button>
+                        </mat-card-header>
+                        <div class="custom-file mt-1 mb-1">
+                          <input #imageMolde type="file" class="custom-file-input" id="inputGroupMoldes" aria-describedby="inputGroupFileMoldes" (change)="readURLMoldes($event);">
+                          <label class="custom-file-label" for="inputGroupMoldes">Elegir imagen</label>
+                        </div>
+                        <img mat-card-image [src]=" currentinfo.Moldes || 'http://tecdevsmx.com/cdental_uploads/preview_cdental.png'" alt="radio" width="100%"/>
+                      </mat-card>
+                    </div>
+                    <div class="carousel-item">
+                      <mat-card class="example-card">
+                        <mat-card-header class="row justify-content-between">
+                          <mat-card-title>Otros</mat-card-title>
+                          <button mat-button (click)="UploadOtros()" > <mat-icon> insert_photo</mat-icon>  Actualizar Evidencia</button>
+                        </mat-card-header>
+                        <div class="custom-file mt-1 mb-1">
+                          <input #imageOtro type="file" class="custom-file-input" id="inputGroupOtros" aria-describedby="inputGroupFileOtros" (change)="readURLOtros($event);">
+                          <label class="custom-file-label" for="inputGroupOtros">Elegir imagen</label>
+                        </div>
+                        <img mat-card-image [src]=" currentinfo.Fotos || 'http://tecdevsmx.com/cdental_uploads/preview_cdental.png'" alt="radio" width="100%"/>
+                      </mat-card>
+                    </div>
+                  </div>
+                  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </div>
+          </div>
+      </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button cdkFocusInitial color="primary" (click)="UpdateInfo()" >Guardar Cambios</button>
+  </mat-dialog-actions>

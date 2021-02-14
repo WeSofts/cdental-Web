@@ -69,7 +69,7 @@ export class DialogCarnetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.pacientData = this.data.paciente[0];
+    this.pacientData = this.data.paciente  ;
     switch (this.data.carnet) {
       case 'cita':
         this.cita = true;

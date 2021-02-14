@@ -90,7 +90,7 @@ export class ViewCarnetComponent implements OnInit {
     console.log(editInfo);
     const dialogRef = this.dialog.open(DialogCarnetComponent, {
       width: '500px',
-      data: {carnet: carnetselected, paciente: this.resultDetails, editInfo }
+      data: {carnet: carnetselected, paciente: this.carnet, editInfo }
     });
     dialogRef.afterClosed().subscribe(_ => {
       this.ngOnInit();

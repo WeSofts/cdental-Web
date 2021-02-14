@@ -16,45 +16,45 @@ export class PacientesService {
   ) { }
 
   getPacientes(idClinica: string): Observable<any>{
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/pacientes/load', {id_clinica: idClinica});
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/pacientes/load', {id_clinica: idClinica});
   }
 
   getPacienteDetails( body: any ): Observable<any> {
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/pacientes/loadinfo', body);
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/pacientes/loadinfo', body);
   }
 
   UploadRadio( body: any ): Observable<any> {
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/uploads/uploadradio', body);
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/uploads/uploadradio', body);
   }
   UploadMoldes( body: any ): Observable<any> {
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/uploads/uploadmolde', body);
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/uploads/uploadmolde', body);
   }
   UploadOtros( body: any ): Observable<any> {
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/uploads/uploadotro', body);
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/uploads/uploadotro', body);
   }
 
   TotalPacientes( idclinica: string ): Observable<any> {
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/pacientes/total-customers', {id_clinica: idclinica});
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/pacientes/total-customers', {id_clinica: idclinica});
   }
 
   DeletePaciente( body: any ): Observable<any> {
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/customers/deletecustomer', body, httpOptions);
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/customers/deletecustomer', body, httpOptions);
   }
 
   UpdatePaciente( body: any ): Observable<any> {
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/customers/updatecustomer', body, httpOptions);
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/customers/updatecustomer', body, httpOptions);
   }
 
   GetAllSubServices( idclinica: string): Observable<any> {
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/load-subservices', { id_clinica: idclinica });
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/load-subservices', { id_clinica: idclinica });
   }
 
   InsertPaciente( body: any ): Observable<any> {
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/customers/addcustomer', body, httpOptions);
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/customers/addcustomer', body, httpOptions);
   }
 
   SendEmailConfirmation( body: any ): Observable<any> {
-    return this.http.post(this.appConfig.APP_ENDPOINT_LOCAL + 'dentista/send/confirmationservice', body);
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/send/confirmationservice', body);
   }
 }
 

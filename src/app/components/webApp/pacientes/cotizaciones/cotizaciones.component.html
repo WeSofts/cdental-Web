@@ -1,1 +1,58 @@
-<p>cotizaciones works!</p>
+
+<div class="row " style="justify-content: space-between;">
+    <div class="col-md-5 col-lg-5 col-sm-12 mt-2">
+        <form [formGroup]="formInfoServicio"  >
+            <div>
+                <h2 style="margin-bottom: 0;">Selecciona un servicio</h2>
+                <h4>Los costos se calcularán con ayuda de la siguiente información</h4>
+            </div>
+            <mat-form-field appearance="fill" class="mt-3">
+                <mat-label>Servicio</mat-label>
+                <input [(ngModel)]="tempchoose" formControlName="Servicio" name="Servicio" id="Servicio" type="text" placeholder="Servicio" aria-label="Servicio" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                <mat-error *ngIf="ServicioNoValido">Servicio <strong> inválido.</strong></mat-error>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="ServiceSelected($event)">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{ option.SubServicio }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" apparence="fill">
+                <mat-label>Más comentarios</mat-label>
+                <input matInput #message maxlength="256" [(ngModel)]="comentarios" formControlName="Comentarios" name="Comentarios" placeholder="Algo que quieras agregar...">
+                <mat-hint align="start"><strong>Ingresa algo que tu paciente necesite saber</strong> </mat-hint>
+                <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+              </mat-form-field>
+        </form>
+            <div class="mt-2">
+                <mat-slide-toggle [(ngModel)]="isChecked" (change)="ResetValue()" > Multiplicar precio </mat-slide-toggle>
+                <mat-form-field appearance="outline" *ngIf="isChecked">
+                    <mat-label>Multiplicar valor de servicio por</mat-label>
+                    <input matInput placeholder="Veces a multiplicar" type="number" #valor (keyup.enter)="Multiplicar(valor.value)">
+                </mat-form-field>
+            </div>
+            <div class="mt-3">
+                <button mat-flat-button color="warn" style="width: 100%;" (click)="ChangeTotal()" > Cambiar Total </button>
+            </div>
+            <div class="mt-2">
+                <button mat-flat-button color="primary" (click)="EnviarCotizacion()" >Enviar cotización</button>
+            </div>
+        </div>
+        <div class="col-md-5 col-lg-5 col-sm-12" style="text-align: right;" >
+            <small>Dentista</small>
+            <p> {{ otherinfo.Dentista }} </p>
+            <small>Servicio</small>
+            <p> {{ currentService.Servicio }} </p>
+            <small>SubServicio</small>
+            <p> {{ currentService.SubServicio }} </p>
+            <small>Costo</small>
+            <p> {{ currentService.Costo | currency }}  MXN</p>
+            <small>Descripción</small>
+            <p> {{ currentService.DescSubServicio }} </p>
+            <small>Fecha cotizado</small>
+            <p> {{ otherinfo.Fecha | date }} </p>
+            <mat-divider></mat-divider>
+            <small>Total</small>
+            <h2 > {{ total | currency }} MXN </h2>
+        </div>
+    </div>
+

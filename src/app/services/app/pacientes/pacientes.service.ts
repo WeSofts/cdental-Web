@@ -56,6 +56,10 @@ export class PacientesService {
   SendEmailConfirmation( body: any ): Observable<any> {
     return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/send/confirmationservice', body);
   }
+
+  SendEmailCotizacion( body: any ): Observable<any> {
+    return this.http.post(this.appConfig.APP_ENDPOINT + 'dentista/send/cotizacion', body);
+  }
 }
 
 const httpOptions = {

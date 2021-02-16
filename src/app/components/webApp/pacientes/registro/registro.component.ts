@@ -240,7 +240,7 @@ export class RegistroComponent implements OnInit {
     localStorage.setItem('carnet_selected_paciente', datatemppaciente );
     console.log(datatemp, 'datatemp');
     console.log(datatemppaciente, 'datatempaciente');
-    this.router.navigateByUrl(`/cdental/vercarnet/${item.NoPaciente}`);
+    this.router.navigateByUrl(`/cdental/carnets/allcarnets`);
   }
 
   ConfirmationService(): void {

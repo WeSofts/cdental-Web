@@ -24,11 +24,11 @@ export class CarnetsService {
     for( let i = 0; i < this.carnets.length; i++){
       let carnet = this.carnets[i];
       let nombre = carnet.Paciente.toLowerCase();
-      console.log(carnet, 'carnet en for')
+      console.log(carnet, 'carnet en for');
       if(nombre.indexOf(valor) >= 0){
         carnet.idx = i;
         carnetsArr.push(carnet);
-        console.log(carnetsArr, "carnetarr")
+        console.log(carnetsArr, "carnetarr");
       }
     }
     return carnetsArr;

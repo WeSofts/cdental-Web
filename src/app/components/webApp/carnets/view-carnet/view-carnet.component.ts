@@ -63,16 +63,16 @@ export class ViewCarnetComponent implements OnInit {
     this.carnets.CarnetDetails(this.bodycarnetdetails)
       .subscribe( (resp: any ) => {
         this.resultDetails = resp.message[0];
-        console.log(this.resultDetails, "result");
+        if ( this.resultDetails.acumulado == this.resultDetails.ppagar && this.resultDetails.acumulado > 0 && this.resultDetails.ppagar > 0){
+          this.snackBar.open('Pagado completamente :D', 'Ok', {
+            duration: 5000,
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+          });
+        }
         Swal.close();
       });
-    if ( this.resultDetails.acumulado == this.resultDetails.ppagar && this.resultDetails.acumulado > 0 && this.resultDetails.ppagar > 0){
-      this.snackBar.open('Pagado completamente :D', 'Ok', {
-        duration: 5000,
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
-      });
-    }
+    
   }
 
   goExpediente(): void{

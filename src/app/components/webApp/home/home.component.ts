@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
     let datatemppaciente = JSON.stringify(this.carnetselected);
     localStorage.setItem('carnet_selected', datatemp );
     localStorage.setItem('carnet_selected_paciente', datatemppaciente );
-    this.router.navigateByUrl(`/cdental/vercarnet/${item.NoPaciente}`);
+    this.router.navigateByUrl(`/cdental/carnets/allcarnets`);
   }
 
   get getNameMonth(){

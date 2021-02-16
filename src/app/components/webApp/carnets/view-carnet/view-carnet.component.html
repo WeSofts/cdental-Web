@@ -47,7 +47,7 @@
                 <table mat-table [dataSource]="pagosRealizados" class="mat-elevation-z8" style="margin: 20px 0 0 0; width: 100%; padding: 0 25px 25px 25px;">
                     <ng-container matColumnDef="Fecha">
                       <th mat-header-cell *matHeaderCellDef> Fecha. </th>
-                      <td mat-cell *matCellDef="let element"> {{element.FechaPago | date}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.FechaPago | date: 'dd/MM/yyyy': 'UTC'}} </td>
                     </ng-container>
                   
                     
@@ -94,7 +94,7 @@
                 <table mat-table [dataSource]="citasCarnet" class="mat-elevation-z8" style="margin: 20px 0 0 0; width: 100%; padding: 0 25px 25px 25px;">
                     <ng-container matColumnDef="Fecha">
                       <th mat-header-cell *matHeaderCellDef> Fecha. </th>
-                      <td mat-cell *matCellDef="let element"> {{element.FechaCita | date}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.FechaCita | date: 'dd/MM/yyyy': 'UTC'}} </td>
                     </ng-container>
                   
                     

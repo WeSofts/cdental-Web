@@ -89,8 +89,6 @@ export class ViewCarnetComponent implements OnInit {
     this.activatedRoute.params.subscribe( params => {
       this.carnet = this.carnets.getCarnet(params['id']);
     });
-    this.LoadCarnetDetails();
-    console.log(this.carnet);
     forkJoin({
       citasCarnet: this.carnets.loadCities(this.carnet.NoPaciente),
       pagosCarnet: this.carnets.loadPayments(this.carnet.NoPaciente)
@@ -104,12 +102,14 @@ export class ViewCarnetComponent implements OnInit {
         Swal.fire('Ocurrio un error al obtener las citas y pagos', '', 'error');
       }
     }, err => console.log(err));
+    this.LoadCarnetDetails();
   }
 
   openDialogEdit( carnetselected: string, editInfo ?: any ): void {
-    console.log(editInfo);
+    
     const dialogRef = this.dialog.open(DialogCarnetComponent, {
       width: '500px',
+      height: '90%',
       data: {carnet: carnetselected, paciente: this.carnet, editInfo }
     });
     dialogRef.afterClosed().subscribe(_ => {
@@ -129,7 +129,6 @@ export class ViewCarnetComponent implements OnInit {
       if (result.isConfirmed) {
         switch (type) {
           case '1':
-            console.log(infoDelete);
             this.carnets.deleteCite({id_cita: infoDelete.NoCita, id_paciente: infoDelete.NoPaciente})
               .subscribe(data => {
                 if (!data.error) {

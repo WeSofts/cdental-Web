@@ -8,21 +8,21 @@
             <p style="font-weight: 500; font-size: 17px;" > {{ carnet.SubServicio }} </p>
         </div>
         <div class=" col-md-4 col-lg-2 col-sm-4" style="text-align: center;" >
-            <p *ngIf="resultDetails[0]" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > {{ this.resultDetails[0].acumulado | currency }} MXN</p>
-            <p *ngIf="!resultDetails[0]" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > 0 MXN</p>
+            <p *ngIf="resultDetails" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > {{ this.resultDetails.acumulado | currency }} MXN</p>
+            <p *ngIf="!resultDetails" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > 0 MXN</p>
             <p style="color: gray; margin-top: 0; font-size: 15px;">Total acumulado</p>
         </div>
         <div class=" col-md-4 col-lg-2 col-sm-4" style="text-align: center;" >
-            <p *ngIf="resultDetails[0]" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > {{ this.resultDetails[0].ppagar - this.resultDetails[0].acumulado | currency }} MXN</p>
-            <p *ngIf="!resultDetails[0]" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > 0 MXN</p>
+            <p *ngIf="resultDetails" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > {{ this.resultDetails.ppagar - this.resultDetails.acumulado | currency }} MXN</p>
+            <p *ngIf="!resultDetails" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > 0 MXN</p>
             <p style="color: gray; margin-top: 0; font-size: 15px;">Total por pagar</p>
         </div>
         <div class=" col-md-4 col-lg-2 col-sm-4" style="text-align: center;" >
-            <p *ngIf="resultDetails[0]" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > {{ this.resultDetails[0].pagos }}</p>
-            <p *ngIf="!resultDetails[0]" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > 0</p>
+            <p *ngIf="resultDetails" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > {{ this.resultDetails.pagos }}</p>
+            <p *ngIf="!resultDetails" style="color: blue; font-weight: 700; margin-bottom: 0; font-size: 20px;" > 0</p>
             <p style="color: gray; margin-top: 0; font-size: 15px;">Pagos Realizados</p>
         </div>
-        <button mat-button>
+        <button mat-button (click)="goExpediente()" >
             <mat-icon>assignment</mat-icon>
             Ver Expediente e Historial Clínico
         </button>

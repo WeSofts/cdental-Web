@@ -1,13 +1,14 @@
 
 import { DialogCarnetComponent } from './dialog-carnet/dialog-carnet.component';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CarnetsService } from 'src/app/services/app/carnets/carnets.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { PagosCarnet, CitasCarnet } from '../../../../models/citas.select';
 import { forkJoin } from 'rxjs';
 import * as XLXS from 'xlsx';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-view-carnet',
@@ -21,18 +22,26 @@ export class ViewCarnetComponent implements OnInit {
   pagosRealizados: PagosCarnet[];
   citasCarnet: CitasCarnet[];
   // ===============================================================================
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  // ===============================================================================
   bodycarnetdetails: BodyCarnetDetails = {
     id_clinica: 0,
     id_paciente: 0,
     id_servicioclientes: 0,
     id_subservicio: 0
   };
-  resultDetails: any[];
+  resultDetails = {
+    acumulado: 0,
+    ppagar: 0
+  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private carnets: CarnetsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   carnet: any = {};
@@ -53,10 +62,21 @@ export class ViewCarnetComponent implements OnInit {
     }
     this.carnets.CarnetDetails(this.bodycarnetdetails)
       .subscribe( (resp: any ) => {
-        this.resultDetails = resp.message;
+        this.resultDetails = resp.message[0];
         console.log(this.resultDetails, "result");
         Swal.close();
       });
+    if ( this.resultDetails.acumulado == this.resultDetails.ppagar && this.resultDetails.acumulado > 0 && this.resultDetails.ppagar > 0){
+      this.snackBar.open('Pagado completamente :D', 'Ok', {
+        duration: 5000,
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+    }
+  }
+
+  goExpediente(): void{
+    this.router.navigateByUrl(`/cdental/pacientes/home`);
   }
 
   ngOnInit(): void {
@@ -152,6 +172,8 @@ export class ViewCarnetComponent implements OnInit {
     }
   }
 }
+
+
 
 export interface BodyCarnetDetails{
   id_clinica: number;

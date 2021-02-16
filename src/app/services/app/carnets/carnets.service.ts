@@ -26,7 +26,7 @@ export class CarnetsService {
       let nombre = carnet.Paciente.toLowerCase();
       console.log(carnet, 'carnet en for')
       if(nombre.indexOf(valor) >= 0){
-        carnet.idx = 1;
+        carnet.idx = i;
         carnetsArr.push(carnet);
         console.log(carnetsArr, "carnetarr")
       }

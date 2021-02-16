@@ -23,11 +23,6 @@ export class NavbarComponent implements OnInit {
         index: 1
       },
       {
-        label: 'Añadir servicio',
-        link: './agregar',
-        index: 2
-      },
-      {
         label: 'Cotizaciones',
         link: './cotizaciones',
         index: 3

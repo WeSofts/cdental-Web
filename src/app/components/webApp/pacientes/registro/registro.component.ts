@@ -6,6 +6,7 @@ import { map, startWith } from 'rxjs/operators';
 import { PacientesService } from '../../../../services/app/pacientes/pacientes.service';
 import { MatStepper } from '@angular/material/stepper';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
@@ -59,11 +60,13 @@ export class RegistroComponent implements OnInit {
     Total: 0,
     id_subservicio: 0
   };
+  carnetselected = {};
 
   constructor(
     private fb: FormBuilder,
     private pservice: PacientesService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.idclinica = JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica;
     this.formInfoPaciente = fb.group({
@@ -219,6 +222,27 @@ export class RegistroComponent implements OnInit {
     this.isProcessingelection = false;
   }
 
+  openCarnet(item: any): void {
+    console.log(item, 'item open carnet');
+    this.carnetselected = {
+      id_clinica: JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica,
+      id_paciente: item.NoPaciente,
+      id_subservicio: item.NoSubservicio,
+      id_servicioclientes: item.NoServicioPaciente,
+    };
+    let datatemp = JSON.stringify(this.carnetselected);
+    this.carnetselected = {
+      Paciente: item.Paciente,
+      SubServicio: item.SubServicio
+    };
+    let datatemppaciente = JSON.stringify(this.carnetselected);
+    localStorage.setItem('carnet_selected', datatemp );
+    localStorage.setItem('carnet_selected_paciente', datatemppaciente );
+    console.log(datatemp, 'datatemp');
+    console.log(datatemppaciente, 'datatempaciente');
+    this.router.navigateByUrl(`/cdental/vercarnet/${item.NoPaciente}`);
+  }
+
   ConfirmationService(): void {
     Swal.fire({
       allowOutsideClick: false,
@@ -229,11 +253,12 @@ export class RegistroComponent implements OnInit {
     Swal.showLoading();
     this.pservice.InsertPaciente( this.body )
       .subscribe( ( resp: any ) => {
-        if ( !resp.error ){
+        if ( !resp.error && resp.message[0] != 'PACIENTE CON EL MISMO NOMBRE YA REGISTRADO' ){
+          console.log(resp, 'resp cofirm');
           if ( this.body.Email != null ){
             Swal.fire({
               title: 'Todo Correcto',
-              text: resp.message[0],
+              text: 'Paciente registrado correctamente',
               html: `¿Desea enviar un correo a: <strong> ${ this.body.Email } </strong> con la información del servicio contratado?`,
               icon: 'info',
               showCancelButton: true,
@@ -255,15 +280,16 @@ export class RegistroComponent implements OnInit {
                 );
                 Swal.showLoading();
                 this.pservice.SendEmailConfirmation( bodyEmail )
-                  .subscribe( (result: any) => {
-                    if ( !result.error ){
+                  .subscribe( (result3: any) => {
+                    if ( !result3.error ){
                       Swal.fire({
                         title: 'Confirmación enviada',
                         text: 'Tu paciente será notificado',
                         icon: 'success',
                       });
+                      this.openCarnet( resp.message[0] );
                     }else{
-                      console.log(result);
+                      console.log(result3);
                       Swal.fire({
                         title: 'No se pudo enviar el correo',
                         text: 'Comprueba correo y conexión a internet',
@@ -280,6 +306,8 @@ export class RegistroComponent implements OnInit {
                     });
                     console.log(err.message);
                   });
+              } else if ( result.dismiss === Swal.DismissReason.cancel ) {
+                this.openCarnet( resp.message[0] );
               }
             });
           } else {
@@ -289,6 +317,7 @@ export class RegistroComponent implements OnInit {
               icon: 'success',
               footer: 'Ahora puedes ver su carnet, pagos e información'
             });
+            this.openCarnet( resp.message[0] );
           }
         }else{
           console.log(resp);
@@ -308,7 +337,7 @@ export class RegistroComponent implements OnInit {
         });
         console.log(err);
       }
-      )
+      );
   }
 
 }

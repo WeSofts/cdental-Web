@@ -15,6 +15,10 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   }
 }

@@ -70,12 +70,12 @@ export class RegistroComponent implements OnInit {
   ) {
     this.idclinica = JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica;
     this.formInfoPaciente = fb.group({
-      Nombre: ['', [Validators.required]],
-      Direccion: ['', [Validators.required]],
-      Telefono: ['', [Validators.required]],
-      Radica: ['', [Validators.required]],
-      Edad: ['', [Validators.required]],
-      Email: [''],
+      Nombre: ['', [Validators.required, Validators.maxLength(120) ]],
+      Direccion: ['', [Validators.required, Validators.maxLength(150) ]],
+      Telefono: ['', [Validators.required, Validators.maxLength(10) ]],
+      Radica: ['', [Validators.required, Validators.maxLength(75) ]],
+      Edad: ['', [Validators.required, Validators.maxLength(2) ]],
+      Email: ['' ],
       Cirugias: [''],
       Enfermedades: [''],
       Alergias: ['']
@@ -85,7 +85,7 @@ export class RegistroComponent implements OnInit {
     });
     this.pservice.GetAllSubServices(this.idclinica)
       .subscribe( ( resp: any ) => {
-        console.log(resp);
+        console.log( resp, 'resp' );
         this.SubServicios = resp.message;
         if ( !this.firstemp ){
           this.ngOnInit();
@@ -138,7 +138,7 @@ export class RegistroComponent implements OnInit {
     this.currentService = event.option.value;
     this.tempchoose = this.currentService.SubServicio;
     this.total = this.currentService.Costo;
-    console.log(this.currentService);
+    console.log(this.currentService, 'current service');
     return;
   }
 
@@ -189,7 +189,6 @@ export class RegistroComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if (this.total > 0){
-          console.log(newtotaltemp);
           this.total = newtotaltemp;
           this.snackBar.open(' Total actualizado ', 'Ok', {
             duration: 700,
@@ -201,8 +200,6 @@ export class RegistroComponent implements OnInit {
     });
   }
   LoadInfo(): void {
-    console.log(this.currentService, 'subservice');
-    console.log(this.formInfoPaciente.value, 'form paciente');
     this.isProcessingelection = true;
     this.body = {
       id_clinica: this.idclinica,
@@ -218,12 +215,10 @@ export class RegistroComponent implements OnInit {
       Total: this.total,
       id_subservicio: this.currentService.NoSubServicio
     };
-    console.log(this.body, 'body all');
     this.isProcessingelection = false;
   }
 
   openCarnet(item: any): void {
-    console.log(item, 'item open carnet');
     this.carnetselected = {
       id_clinica: JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica,
       id_paciente: item.NoPaciente,
@@ -238,8 +233,6 @@ export class RegistroComponent implements OnInit {
     let datatemppaciente = JSON.stringify(this.carnetselected);
     localStorage.setItem('carnet_selected', datatemp );
     localStorage.setItem('carnet_selected_paciente', datatemppaciente );
-    console.log(datatemp, 'datatemp');
-    console.log(datatemppaciente, 'datatempaciente');
     this.router.navigateByUrl(`/cdental/carnets/allcarnets`);
   }
 
@@ -254,8 +247,7 @@ export class RegistroComponent implements OnInit {
     this.pservice.InsertPaciente( this.body )
       .subscribe( ( resp: any ) => {
         if ( !resp.error && resp.message[0] != 'PACIENTE CON EL MISMO NOMBRE YA REGISTRADO' ){
-          console.log(resp, 'resp cofirm');
-          if ( this.body.Email != null ){
+          if ( this.body.Email.length > 5 ){
             Swal.fire({
               title: 'Todo Correcto',
               text: 'Paciente registrado correctamente',
@@ -271,8 +263,10 @@ export class RegistroComponent implements OnInit {
                 const bodyEmail = {
                   Paciente: this.body.Nombre,
                   Email: this.body.Email,
-                  Clinica: JSON.parse(localStorage.getItem('data_user_cdental'))[0].Clinica
+                  Clinica: JSON.parse(localStorage.getItem('data_user_cdental'))[0].Clinica,
+                  Servicio:  this.currentService.SubServicio
                 };
+                console.log( bodyEmail, 'bdy email' );
                 Swal.fire(
                   'Procesando',
                   'Por favor espere',
@@ -289,7 +283,6 @@ export class RegistroComponent implements OnInit {
                       });
                       this.openCarnet( resp.message[0] );
                     }else{
-                      console.log(result3);
                       Swal.fire({
                         title: 'No se pudo enviar el correo',
                         text: 'Comprueba correo y conexión a internet',
@@ -320,7 +313,6 @@ export class RegistroComponent implements OnInit {
             this.openCarnet( resp.message[0] );
           }
         }else{
-          console.log(resp);
           Swal.fire({
             title: 'Parece que algo salió mal',
             text: resp.message,

@@ -37,6 +37,7 @@ export class AllCarnetsComponent implements OnInit {
 
   ngOnInit(): void {
     this.idclinical.idclinica = JSON.parse(localStorage.getItem('data_user_cdental'))[0].NoClinica;
+    console.log(this.idclinical, 'id carnets');
     this.LoadData();
   }
 

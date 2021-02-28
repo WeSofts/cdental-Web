@@ -28,9 +28,9 @@ export class RegistrarServiciosComponent implements OnInit {
     });
     this.formsubservicio = this.fb.group({
       SubServicio: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
       precio: ['', [Validators.required]],
       id_servicios: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]],
     });
   }
   //#region getters validators

@@ -75,7 +75,16 @@ export class HomeComponent implements OnInit {
     return monthNames[this.currensatdistic.mes_estadisticas - 1];
   }
 
+  infoclinica = {
+    dentista: '',
+    direccion: ''
+  };
+
   ngOnInit(): void {
+    this.infoclinica = {
+      dentista: `${JSON.parse(localStorage.getItem('data_user_cdental'))[0].Dentista} ${JSON.parse(localStorage.getItem('data_user_cdental'))[0].Apellidos}`,
+      direccion: JSON.parse(localStorage.getItem('data_user_cdental'))[0].Direccion
+    }
   }
 }
 

@@ -33,7 +33,8 @@ export class ViewCarnetComponent implements OnInit {
   };
   resultDetails = {
     acumulado: 0,
-    ppagar: 0
+    ppagar: 0,
+    pagos: 0
   };
 
   constructor(

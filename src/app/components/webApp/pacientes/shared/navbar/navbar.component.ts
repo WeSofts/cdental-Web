@@ -32,8 +32,10 @@ export class NavbarComponent implements OnInit {
 
   navLinks: any[];
   activeLinkIndex = 0;
+  clinica: string;
 
   ngOnInit(): void {
+    this.clinica = JSON.parse(localStorage.getItem('data_user_cdental'))[0].Clinica;
     this.route.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.route.url));
     });

@@ -56,8 +56,9 @@
             <div class="col-md-6 col-lg-6 col-sm-12">
               <mat-form-field appearance="fill">
                 <mat-label>Telefono de paciente</mat-label>
-                <input matInput placeholder="Telefono de paciente" required formControlName="Telefono" type="number" maxlength="12">
+                <input matInput  #tel maxLength="10" placeholder="Telefono de paciente" formControlName="Telefono" type="number">
                 <mat-icon matSuffix> phone </mat-icon>
+                <mat-hint align="end">{{tel.value?.length || 0}}/10</mat-hint>
                 <mat-error *ngIf="telefonoNoValido">Telefono<strong> inválido.</strong></mat-error>
               </mat-form-field>
             </div>

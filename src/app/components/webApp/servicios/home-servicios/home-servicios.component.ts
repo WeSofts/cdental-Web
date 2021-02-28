@@ -19,6 +19,7 @@ export class HomeServiciosComponent implements OnInit {
   indexservice: number;
   indexsubservice: number;
   userData: UserData;
+  idSubServicio: number;
   constructor(
     public fb: FormBuilder,
     private servServices: ServiciosService
@@ -47,13 +48,14 @@ export class HomeServiciosComponent implements OnInit {
   //#endregion
 
   setServicioSelected(subservicio: SubServicioList, servicio: ServicioList): void {
+    this.idSubServicio = subservicio.id_SubServicio;
     this.subServicioSelect = subservicio;
     this.servicioSelect = servicio;
     this.formservicio.patchValue({
       SubServicio: this.subServicioSelect.SubServicio,
       precio: this.subServicioSelect.precio,
+      descripcion: this.subServicioSelect.descripcion,
       id_servicios: this.servicioSelect.id_servicio,
-      descripcion: this.subServicioSelect.descripcion
     });
   }
   updatingSubServicio(): void {
@@ -69,11 +71,12 @@ export class HomeServiciosComponent implements OnInit {
     });
     Swal.showLoading();
     // al concluir refrescar la pagina sin perder la ruta
-    console.log(this.formservicio.value);
-    this.servServices.updatingSubService(this.formservicio.value)
+    let body = this.GetNewValues();
+    this.servServices.updatingSubService(body)
       .subscribe(data => {
         if (!data.error) {
           Swal.fire('Se actualizo correctamente', '', 'success');
+          this.ngOnInit();
         } else {
           console.log(data);
           Swal.fire('Ocurrio un error al actualizar', '', 'error');
@@ -103,6 +106,19 @@ export class HomeServiciosComponent implements OnInit {
       }
     });
   }
+
+  GetNewValues( ) {
+    let bodytemp = {
+      id_servicios: this.formservicio.value.id_servicios,
+      SubServicio: this.formservicio.value.SubServicio,
+      descripcion: this.formservicio.value.descripcion,
+      precio: this.formservicio.value.precio,
+      id_SubServicio: this.idSubServicio
+    };
+    console.log(bodytemp, 'bodytemp');
+    return bodytemp;
+  }
+
   ngOnInit(): void {
     this.servServices.getServiciosYSubServicios(this.userData.NoClinica)
       .subscribe(data => {

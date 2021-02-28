@@ -9,11 +9,14 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class SidebarComponent implements OnInit {
 
+  clinica: string;
+
   constructor(
     private router: Router,
     private loginService: LoginService,
   ) {
-   }
+    this.clinica = JSON.parse(localStorage.getItem('data_user_cdental'))[0].Clinica;
+  }
 
   ngOnInit(): void {
     if( this.loginService.autenticado() ){
